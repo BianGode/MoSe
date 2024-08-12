@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+}
+
+.selectTheme {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: lightblue;
+  padding: 10px;
+}
+.selectTheme .box {
+  height: 15px;
+  width: 30px;
+  border: 2px dotted blue;
+}
+.selectTheme .original {
+  background-color: gray;
+}
+.selectTheme .black {
+  background-color: black;
+}
+.selectTheme .white {
+  background-color: white;
+}
+
+footer {
+  width: 100%;
+  border: 2px dashed blue;
+  height: 200px;
+}/*# sourceMappingURL=App.css.map */
