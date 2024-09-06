@@ -4,6 +4,7 @@ import e from "express";
 
 const app = express();
 const port = process.env.PORT || 8080;
+const apiKey = '60aac70c68dbae5dede13d1396f54c48';
 
 app.get("/", (req, res) => {
   res.send("Welcome to my server!");
@@ -38,8 +39,8 @@ app.get("/search", (req, res) => {
   axios
     .get(
       "https://api.themoviedb.org/3/search/movie?query=" +
-        inputUser +
-        "&api_key=f620c5baed1b777b7b50d6677ef5d5a1"
+      inputUser +
+      "&api_key=" + apiKey
     )
     .then((result) => {
       if (result.data.results.length > 1) {
@@ -61,8 +62,8 @@ app.get("/singleMovie", (req, res) => {
   axios
     .get(
       "https://api.themoviedb.org/3/movie/" +
-        singleMovieId +
-        "?api_key=f620c5baed1b777b7b50d6677ef5d5a1"
+      singleMovieId +
+      "?api_key=" + apiKey
     )
     .then((movieDetails) => {
       movieData.movieDetails = movieDetails.data;
@@ -71,8 +72,8 @@ app.get("/singleMovie", (req, res) => {
       axios
         .get(
           "http://api.themoviedb.org/3/movie/" +
-            singleMovieId +
-            "/casts?api_key=f620c5baed1b777b7b50d6677ef5d5a1"
+          singleMovieId +
+          "/casts?api_key=" + apiKey
         )
         .then((castRes) => {
           // this works
@@ -85,15 +86,42 @@ app.get("/singleMovie", (req, res) => {
 
 // request to load the populair movies that day
 app.get("/loadPopulair", (req, res) => {
-  axios.get("https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=f620c5baed1b777b7b50d6677ef5d5a1")
-  .then((popRes) => {
-    // console.log(popRes.data);
-    res.send(popRes.data)
-  }).catch((err) => {
-    console.log(err);
-  })
+  axios.get("https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=" + apiKey)
+    .then((popRes) => {
+      // console.log(popRes.data);
+      res.send(popRes.data)
+    }).catch((err) => {
+      console.log(err);
+    })
 });
 // http://api.themoviedb.org/3/movie/14160/casts?api_key=f620c5baed1b777b7b50d6677ef5d5a1
+
+app.get("/getPopulairAll", (req, res) => {
+  axios.get("https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=" + apiKey)
+    .then((popAllRes) => {
+      res.send(popRes.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+})
+
+const options = {
+  method: 'GET',
+  url: 'https://api.themoviedb.org/3/trending/all/day?language=en-US',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer 60aac70c68dbae5dede13d1396f54c48'
+  }
+};
+
+axios
+  .request(options)
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

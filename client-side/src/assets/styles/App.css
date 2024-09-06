@@ -52,19 +52,40 @@ footer {
   header.mobile {
     display: flex;
   }
-  header.mobile .sideBar {
+  header.mobile #sidebar-open-icon {
+    position: absolute;
+    padding: 10px;
+  }
+  header.mobile #sideBar {
     display: none;
-    height: 100%;
-    border: 2px solid blanchedalmond;
+    height: 0;
+    border-right: 100px solid transparent;
+    border-bottom: 100vh solid antiquewhite;
     width: 70%;
     position: absolute;
-    background-color: white;
+    flex-direction: column;
+    gap: 2rem;
   }
-  header.mobile .sideBar .sideBarLinks {
+  header.mobile #sideBar #sidebar-close-icon {
+    width: -moz-max-content;
+    width: max-content;
+    padding: 10px;
+  }
+  header.mobile #sideBar #sideBarLinks {
     display: none;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 10px;
+  }
+  header.mobile #sideBar #sideBarLinks a {
+    text-decoration: none;
+    color: black;
   }
   header.desktop {
     display: none;
+  }
+  .outlet-wrapper {
+    margin-top: 40px;
   }
 }
 @media only screen and (min-width: 800px) {

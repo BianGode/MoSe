@@ -6,6 +6,7 @@ import {
   Routes,
   useNavigate,
   Link,
+  useLocation,
 } from "react-router-dom";
 import "./assets/styles/App.css";
 import axios from "axios";
@@ -19,6 +20,10 @@ function App() {
   const [search, setSearch] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
 
+  const location = useLocation();
+
+  console.log(location.pathname);
+
   function searchReqClientSide() {
     // axios.get('../../search')
   }
@@ -30,19 +35,23 @@ function App() {
   }
 
   function handleSidebarClick() {
-    const sidebar = document.querySelector(".sideBar");
-    const sidebarOpen = document.querySelector(".sidebar-open-icon");
-    const sidebarClose = document.querySelector(".sidebar-close-icon");
-    const sidebarLinks = document.querySelector(".sideBarLinks")
+    const sidebar = document.getElementById("sideBar");
+    const sidebarOpen = document.getElementById("sidebar-open-icon");
+    const sidebarClose = document.getElementById("sidebar-close-icon");
+    const sidebarLinks = document.getElementById("sideBarLinks");
 
     // sidebar slideshow
-    if (sidebarOpen.style.display == "flex" && sidebarLinks.style.display == "none") {
+    if (
+      sidebarOpen.style.display === "flex"
+      // sidebarOpen.style.display === "flex" &&
+      // sidebarLinks.style.display === "none"
+    ) {
+      sidebarOpen.style.display = "none";
       sidebar.style.animation = "sidebarSlideOpen 0.5s ease";
       sidebar.style.display = "flex";
-      sidebarLinks.style.display = "block"
+      sidebarLinks.style.display = "flex";
       // setTimeout(() => {
-        sidebarOpen.style.display = "none";
-        sidebarClose.style.display = "flex";
+      sidebarClose.style.display = "flex";
       // }, 500);
     } else {
       setTimeout(() => {
@@ -56,6 +65,7 @@ function App() {
   }
 
   return (
+    // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
     <div>
       <div className="selectTheme">
         <div className="box original active"></div>
@@ -70,7 +80,7 @@ function App() {
         }
         <div className="headerLinks">
           <Link to="/about">About</Link>
-          <Link to="/home">Home</Link>
+          <Link to="/">Home</Link>
         </div>
         <div className="searchHeader">
           <img src="faSearch" alt="" onClick={() => searchReqClientSide()} />
@@ -80,23 +90,35 @@ function App() {
       <header className="mobile">
         <FontAwesomeIcon
           icon={faBars}
-          className="sidebar-open-icon"
+          id="sidebar-open-icon"
           onClick={() => handleSidebarClick()}
+          size="lg"
+          style={{ display: "flex" }}
         />
-        <div className="sideBar">
+        <div id="sideBar">
           <FontAwesomeIcon
             icon={faClose}
-            className="sidebar-close-icon"
+            id="sidebar-close-icon"
             onClick={() => handleSidebarClick()}
+            size="lg"
           />
-          <div className="sideBarLinks">
-            <Link to="/about">About</Link>
-            <Link to="/home">Home</Link>
+          <div id="sideBarLinks">
+            <div className="sidebar-link-singlewrap">
+              <Link to="/about">About</Link>
+              { 
+                <p>About</p>
+                }
+            </div>
+            <div className="sidebar-link-singlewrap">
+              <Link to="/">Home</Link>
+              <p>Home</p>
+            </div>
           </div>
         </div>
       </header>
-
-      <Outlet />
+      <div className="outlet-wrapper">
+        <Outlet />
+      </div>
       <footer></footer>
     </div>
   );
