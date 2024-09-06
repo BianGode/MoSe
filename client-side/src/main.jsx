@@ -33,8 +33,11 @@ const router = createBrowserRouter([
   },
 ]);
 
+// React.StrictMode is automatically added with vite.
+// So I removed it because my code rendered twice
+// https://stackoverflow.com/questions/61254372/my-react-component-is-rendering-twice-because-of-strict-mode
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  // </React.StrictMode>
 );

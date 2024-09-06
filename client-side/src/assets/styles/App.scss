@@ -14,6 +14,23 @@
     width: 0%;
   }
 }
+@keyframes searchInputOpen {
+  from { 
+    width: 0;
+  }
+  to {
+    width: 5rem;
+  }
+}
+@keyframes searchInputClose {
+  from {
+    width: 5rem;
+  }
+  to {
+    width: 0%;
+  }
+}
+
 body {
   margin: 0;
 }
@@ -45,6 +62,33 @@ footer {
   border: 2px dashed blue;
   height: 200px;
 }
+
+// header search style
+.search-header {
+  display: flex;
+  // height: min-content;
+  // height: 25px;
+  align-items: center;
+  border: 3px solid black;
+  .search-icon {
+    // border: 3px solid black;
+    border-right: none;
+    height: 16px;
+  }
+  input {
+    // border: 3px solid black;
+    border: 0;
+    // height: inherit;
+    outline: none;
+    box-shadow: 0;
+    width: 0;
+  }
+  input.active {
+    // animation: search-input-animation 0.5s ease;
+    width: 5rem;
+  }
+}
+
 @media only screen and (max-width: 800px) {
   header.mobile {
     display: flex;
