@@ -2,10 +2,6 @@
 import { useEffect, useState, useRef } from "react";
 import {
   Outlet,
-  Route,
-  Router,
-  Routes,
-  useNavigate,
   Link,
   useLocation,
 } from "react-router-dom";
@@ -56,6 +52,17 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const sidebarOpen = document.getElementById("sidebar-open-icon");
+    if (
+      sidebarOpen.style.display !== "flex"
+      // sidebarOpen.style.display === "flex" &&
+      // sidebarLinks.style.display === "none"
+    ) {
+      handleSidebarClick()
+    }
+  });
+
   //searchBar component
   const HeaderSearch = () => {
     const [search, setSearch] = useState("");
@@ -100,7 +107,7 @@ function App() {
 
     function checkInput(event) {
       if (event.keyCode !== 13) {
-        setSearch(e.target.value);
+        setSearch(event.target.value);
       }
     }
 
@@ -116,10 +123,11 @@ function App() {
           />
           <input
             id="search-input"
+            // className="active"
             type="text"
             value={search}
             onKeyDown={(e) => checkInput(e)}
-            onChange={(e) => setSearch(é.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             ref={searchInputRef}
             placeholder="Search..."
           />
@@ -146,28 +154,28 @@ function App() {
 
 
   // detect click and then determine whether isclicked inside searchInput or outside
-  const onClickOutside = () => {
-    console.log("first");
-    const searchInput = document.getElementById("search-input");
-    if (searchInput.classList.contains("active")) {
-      console.log("second,  contains active true");
-      document.addEventListener("click", (e) => {
-        console.log("third,  beginning click");
-        if (!searchInput.contains(e.target)) {
-          console.log("fourth, searchInput does not contain clicked element");
-          searchInput.classList.remove("active");
-          setTimeout(() => {
-            searchInput.style.animation = "searchInputClose 0.5s ease";
-            console.log("fifth, during timeout");
-          }, 500);
-        }
-      });
-    }
-    console.log("sixth, after everything");
+  // const onClickOutside = () => {
+  //   console.log("first");
+  //   const searchInput = document.getElementById("search-input");
+  //   if (searchInput.classList.contains("active")) {
+  //     console.log("second,  contains active true");
+  //     document.addEventListener("click", (e) => {
+  //       console.log("third,  beginning click");
+  //       if (!searchInput.contains(e.target)) {
+  //         console.log("fourth, searchInput does not contain clicked element");
+  //         searchInput.classList.remove("active");
+  //         setTimeout(() => {
+  //           searchInput.style.animation = "searchInputClose 0.5s ease";
+  //           console.log("fifth, during timeout");
+  //         }, 500);
+  //       }
+  //     });
+  //   }
+  //   console.log("sixth, after everything");
 
-  };
+  // };
 
-    // onClickOutside()
+  // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
     <div>
@@ -206,11 +214,11 @@ function App() {
           <div id="sideBarLinks">
             <div className="sidebar-link-singlewrap">
               <Link to="/about">About</Link>
-              {<p>About</p>}
+              {location.pathname === '/about' ? <p className="upside-down-p">About</p> : null }
             </div>
             <div className="sidebar-link-singlewrap">
               <Link to="/">Home</Link>
-              <p>Home</p>
+              {location.pathname === '/' ? <p className="upside-down-p">Home</p> : null }
             </div>
             <HeaderSearch />
           </div>
