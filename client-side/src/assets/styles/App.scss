@@ -147,6 +147,18 @@ footer {
 @media only screen and (min-width: 800px) {
   header.desktop {
     display: flex;
+    margin-left: 10%;
+    gap: 3rem;
+    .headerLinks {
+      display: flex;
+      gap: 2rem;
+      a {
+        text-decoration: none;
+      }
+      a:visited {
+        color: black;
+      }
+    }
   }
   header.mobile {
     display: none;

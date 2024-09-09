@@ -138,6 +138,11 @@ function App() {
     }
   };
 
+  // method to change theme
+  function changeTheme(color) {
+    setTheme(color)
+    console.log(color);
+  }
   // add animation for the search bar slide
 
   // const searchOpen = () => {
@@ -180,9 +185,9 @@ function App() {
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
     <div>
       <div className="selectTheme">
-        <div className="box original active"></div>
-        <div className="box black"></div>
-        <div className="box white"></div>
+        <div className="box original" onClick={() => changeTheme('original')}></div>
+        <div className="box black" onClick={() => changeTheme('black')}></div>
+        <div className="box white" onClick={() => changeTheme('white')}></div>
       </div>
       <header className="desktop">
         <img src={logo} alt="logo" />
