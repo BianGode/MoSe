@@ -1,5 +1,5 @@
 // TESTTTTTTTTTTTTTT
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Outlet,
   Route,
@@ -18,7 +18,6 @@ function App() {
   const [theme, setTheme] = useState("");
   const [logo, setLogo] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [search, setSearch] = useState("");
   const [sidebarActive, setSidebarActive] = useState(false);
 
   const location = useLocation();
@@ -26,13 +25,7 @@ function App() {
   function searchReqClientSide() {
     // axios.get('../../search')
   }
-
-  function checkInput(event) {
-    if (event.keyCode !== 13) {
-      setSearch(e.target.value);
-    }
-  }
-
+  
   function handleSidebarClick() {
     const sidebar = document.getElementById("sideBar");
     const sidebarOpen = document.getElementById("sidebar-open-icon");
@@ -65,9 +58,55 @@ function App() {
 
   //searchBar component
   const HeaderSearch = () => {
+    const [search, setSearch] = useState("");
+    const searchInputRef = useRef(null);
+    const searchHeaderRef = useRef(null);
+    
+    useEffect(() => {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }, []);
+    
+    const searchOpen = () => {
+      const searchInput = searchInputRef.current;
+      if (searchInput && !searchInput.classList.contains("active")) {
+        searchInput.style.animation = "searchInputOpen 0.5s ease";
+        setTimeout(() => {
+          searchInput.classList.add("active");
+        }, 500);
+      }
+    };
+  
+    const searchClose = () => {
+      const searchInput = searchInputRef.current;
+      if (searchInput.classList.contains("active")) {
+        searchInput.style.animation = "searchInputClose 0.5s ease";
+        setTimeout(() => {
+          searchInput.classList.remove("active");
+        }, 500);
+      }
+    };
+
+    const handleClickOutside = (e) => {
+      if (
+        searchHeaderRef.current &&
+        !searchHeaderRef.current.contains(e.target)
+      ) {
+        searchClose();
+      }
+    };
+
+    function checkInput(event) {
+      if (event.keyCode !== 13) {
+        setSearch(e.target.value);
+      }
+    }
+
     if (location.pathname !== "/") {
       return (
-        <div id="search-header" className="search-header">
+        <div id="search-header" className="search-header" ref={searchHeaderRef}>
           <FontAwesomeIcon
             className="search-icon"
             id="search-icon"
@@ -80,6 +119,9 @@ function App() {
             type="text"
             value={search}
             onKeyDown={(e) => checkInput(e)}
+            onChange={(e) => setSearch(é.target.value)}
+            ref={searchInputRef}
+            placeholder="Search..."
           />
         </div>
       );
@@ -90,17 +132,19 @@ function App() {
 
   // add animation for the search bar slide
 
-  const searchOpen = () => {
-    const searchInput = document.getElementById("search-input");
-    const searchHeader = document.getElementById("search-header");
-    const searchIcon = document.getElementById("search-icon");
-    if (!searchInput.classList.contains("active")) {
-      searchInput.style.animation = "searchInputOpen 0.5s ease";
-      setTimeout(() => {
-        searchInput.classList.add("active");
-      }, 500);
-    }
-  };
+  // const searchOpen = () => {
+  //   const searchInput = document.getElementById("search-input");
+  //   const searchHeader = document.getElementById("search-header");
+  //   const searchIcon = document.getElementById("search-icon");
+  //   if (!searchInput.classList.contains("active")) {
+  //     searchInput.style.animation = "searchInputOpen 0.5s ease";
+  //     setTimeout(() => {
+  //       searchInput.classList.add("active");
+  //     }, 500);
+  //   }
+  // };
+
+
   // detect click and then determine whether isclicked inside searchInput or outside
   const onClickOutside = () => {
     console.log("first");

@@ -15,7 +15,7 @@
   }
 }
 @keyframes searchInputOpen {
-  from { 
+  from {
     width: 0;
   }
   to {
@@ -27,7 +27,7 @@
     width: 5rem;
   }
   to {
-    width: 0%;
+    width: 0;
   }
 }
 
@@ -84,7 +84,6 @@ footer {
     width: 0;
   }
   input.active {
-    // animation: search-input-animation 0.5s ease;
     width: 5rem;
   }
 }
