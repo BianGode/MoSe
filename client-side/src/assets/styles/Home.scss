@@ -1,4 +1,33 @@
-.homeWrapper {
-    background-color: rgb(159, 172, 159);
-    height: 700px;
+.home-wrapper {
+  background-color: rgb(159, 172, 159);
+  // height: 700px;
+  width: 100vw;
+  .video-wrapper {
+    // position: absolute;
+    // height: inherit;
+    .video-player {
+      // position: relative;
+      .vjs-tech {
+        object-fit: cover;
+      }
+      .self-overwrite-size {
+        // max-width: 100%;
+        height: calc(100vh - 1.8rem - 19px) !important;
+        // height: auto;
+        // height: fit-content;
+        // width: fit-content;
+        * {
+          // padding: 0;
+          // height: calc(100vh - 2rem - 19px) !important;
+          // height: fit-content;
+          // max-height: 100%;
+          // max-width: 100%;
+        }
+      }
+    }
+    .video-overlay {
+      position: absolute;
+      height: calc(100vh - 1.8rem - 19px) !important;
+    }
+  }
 }

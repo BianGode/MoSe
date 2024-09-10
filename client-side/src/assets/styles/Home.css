@@ -1,4 +1,15 @@
-.homeWrapper {
+.home-wrapper {
   background-color: rgb(159, 172, 159);
-  height: 700px;
+  width: 100vw;
+}
+.home-wrapper .video-wrapper .video-player .vjs-tech {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.home-wrapper .video-wrapper .video-player .self-overwrite-size {
+  height: calc(100vh - 1.8rem - 19px) !important;
+}
+.home-wrapper .video-wrapper .video-overlay {
+  position: absolute;
+  height: calc(100vh - 1.8rem - 19px) !important;
 }/*# sourceMappingURL=Home.css.map */
