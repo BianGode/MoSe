@@ -1,4 +1,5 @@
 .home-wrapper {
+  z-index: 2;
   background-color: rgb(159, 172, 159);
   width: 100vw;
 }
@@ -7,9 +8,34 @@
      object-fit: cover;
 }
 .home-wrapper .video-wrapper .video-player .self-overwrite-size {
-  height: calc(100vh - 1.8rem - 19px) !important;
+  max-width: 100%;
+  height: calc(100vh - 1.8rem) !important;
 }
 .home-wrapper .video-wrapper .video-overlay {
   position: absolute;
-  height: calc(100vh - 1.8rem - 19px) !important;
+  left: 0;
+  top: 1.8rem;
+  height: calc(100vh - 1.8rem) !important;
+  width: 100%;
+}
+.home-wrapper .search-home-wrapper {
+  position: absolute;
+  left: 0;
+  top: 1.8rem;
+  height: calc(100vh - 1.8rem) !important;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.home-wrapper .search-home-wrapper .search-home {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20rem;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+}
+.home-wrapper .search-home-wrapper .search-home input {
+  width: 15rem;
 }/*# sourceMappingURL=Home.css.map */

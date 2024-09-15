@@ -1,4 +1,5 @@
 .home-wrapper {
+  z-index: 2;
   background-color: rgb(159, 172, 159);
   // height: 700px;
   width: 100vw;
@@ -11,8 +12,8 @@
         object-fit: cover;
       }
       .self-overwrite-size {
-        // max-width: 100%;
-        height: calc(100vh - 1.8rem - 19px) !important;
+        max-width: 100%;
+        height: calc(100vh - 1.8rem) !important;
         // height: auto;
         // height: fit-content;
         // width: fit-content;
@@ -27,7 +28,33 @@
     }
     .video-overlay {
       position: absolute;
-      height: calc(100vh - 1.8rem - 19px) !important;
+      left: 0;
+      top: 1.8rem;
+      height: calc(100vh - 1.8rem) !important;
+      width: 100%;
+    }
+  }
+  // move this to another scss file called mediaqueries
+  .search-home-wrapper {
+    position: absolute;
+    left: 0;
+    top: 1.8rem;
+    height: calc(100vh - 1.8rem) !important;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    .search-home {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 20rem;
+      border: 1px solid red;
+      display: flex;
+      flex-direction: column;
+      input {
+        width: 15rem;
+      }
     }
   }
 }

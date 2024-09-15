@@ -1,17 +1,13 @@
 // TESTTTTTTTTTTTTTT
 import { useEffect, useState, useRef } from "react";
-import {
-  Outlet,
-  Link,
-  useLocation,
-} from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import "./assets/styles/App.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState("original");
   const [logo, setLogo] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sidebarActive, setSidebarActive] = useState(false);
@@ -21,61 +17,65 @@ function App() {
   function searchReqClientSide() {
     // axios.get('../../search')
   }
-  
-  function handleSidebarClick() {
-    const sidebar = document.getElementById("sideBar");
-    const sidebarOpen = document.getElementById("sidebar-open-icon");
-    const sidebarClose = document.getElementById("sidebar-close-icon");
-    const sidebarLinks = document.getElementById("sideBarLinks");
 
-    // sidebar slideshow
-    if (
-      sidebarOpen.style.display === "flex"
-      // sidebarOpen.style.display === "flex" &&
-      // sidebarLinks.style.display === "none"
-    ) {
-      sidebarOpen.style.display = "none";
-      sidebar.style.animation = "sidebarSlideOpen 0.5s ease";
-      sidebar.style.display = "flex";
-      sidebarLinks.style.display = "flex";
-      // setTimeout(() => {
-      sidebarClose.style.display = "flex";
-      // }, 500);
-    } else {
-      setTimeout(() => {
-        sidebar.style.display = "none";
-      }, 500);
-      sidebar.style.animation = "sidebarSlideClose 0.5s ease";
-      sidebarLinks.style.display = "none";
-      sidebarOpen.style.display = "flex";
-      sidebarClose.style.display = "none";
-    }
-  }
+  // function handleSidebarClick() {
+  //   const sidebar = document.getElementById("sideBar");
+  //   const sidebarOpen = document.getElementById("sidebar-open-icon");
+  //   const sidebarClose = document.getElementById("sidebar-close-icon");
+  //   const sidebarLinks = document.getElementById("sideBarLinks");
 
-  useEffect(() => {
-    const sidebarOpen = document.getElementById("sidebar-open-icon");
-    if (
-      sidebarOpen.style.display !== "flex"
-      // sidebarOpen.style.display === "flex" &&
-      // sidebarLinks.style.display === "none"
-    ) {
-      handleSidebarClick()
-    }
-  });
+  //   // sidebar slideshow
+  //   if (
+  //     sidebarOpen.style.display === "flex"
+  //     // sidebarOpen.style.display === "flex" &&
+  //     // sidebarLinks.style.display === "none"
+  //   ) {
+  //     sidebarOpen.style.display = "none";
+
+  //     sidebar.style.animation = "sidebarSlideOpen 0.5s ease";
+
+  //     setTimeout(() => {
+  //       sidebar.style.display = "flex";
+
+  //       sidebarLinks.style.display = "flex";
+  //     sidebarClose.style.display = "flex";
+  //     }, 500);
+
+  //   } else {
+  //     setTimeout(() => {
+  //       sidebar.style.display = "none";
+  //     }, 500);
+  //     sidebar.style.animation = "sidebarSlideClose 0.5s ease";
+  //     sidebarLinks.style.display = "none";
+  //     sidebarOpen.style.display = "flex";
+  //     sidebarClose.style.display = "none";
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const sidebarOpen = document.getElementById("sidebar-open-icon");
+  //   if (
+  //     sidebarOpen.style.display !== "flex"
+  //     // sidebarOpen.style.display === "flex" &&
+  //     // sidebarLinks.style.display === "none"
+  //   ) {
+  //     handleSidebarClick()
+  //   }
+  // });
 
   //searchBar component
   const HeaderSearch = () => {
     const [search, setSearch] = useState("");
     const searchInputRef = useRef(null);
     const searchHeaderRef = useRef(null);
-    
+
     useEffect(() => {
       document.addEventListener("click", handleClickOutside);
       return () => {
         document.removeEventListener("click", handleClickOutside);
       };
     }, []);
-    
+
     const searchOpen = () => {
       const searchInput = searchInputRef.current;
       if (searchInput && !searchInput.classList.contains("active")) {
@@ -85,7 +85,7 @@ function App() {
         }, 500);
       }
     };
-  
+
     const searchClose = () => {
       const searchInput = searchInputRef.current;
       if (searchInput.classList.contains("active")) {
@@ -140,7 +140,7 @@ function App() {
 
   // method to change theme
   function changeTheme(color) {
-    setTheme(color)
+    setTheme(color);
     console.log(color);
   }
   // add animation for the search bar slide
@@ -156,7 +156,6 @@ function App() {
   //     }, 500);
   //   }
   // };
-
 
   // detect click and then determine whether isclicked inside searchInput or outside
   // const onClickOutside = () => {
@@ -179,16 +178,23 @@ function App() {
   //   console.log("sixth, after everything");
 
   // };
+  const toggleShowSidebar = () => {
+    setSidebarActive(!sidebarActive);
+  };
 
   // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
-    <div>
+    <div className={theme}>
       <div className="selectTheme">
-        <div className="box original" onClick={() => changeTheme('original')}></div>
-        <div className="box black" onClick={() => changeTheme('black')}></div>
-        <div className="box white" onClick={() => changeTheme('white')}></div>
+        <div
+          className="box original"
+          onClick={() => changeTheme("original")}
+        ></div>
+        <div className="box black" onClick={() => changeTheme("black")}></div>
+        <div className="box white" onClick={() => changeTheme("white")}></div>
       </div>
+
       <header className="desktop">
         <img src={logo} alt="logo" />
         <div className="headerLinks">
@@ -205,26 +211,34 @@ function App() {
         <FontAwesomeIcon
           icon={faBars}
           id="sidebar-open-icon"
-          onClick={() => handleSidebarClick()}
+          onClick={() => toggleShowSidebar()}
           size="lg"
-          style={{ display: "flex" }}
+          // style={{ display: "flex" }}
         />
-        <div id="sideBar">
+        <div
+          id="sideBar"
+          className={sidebarActive ? "sidebar active" : "sidebar"}
+        >
           <FontAwesomeIcon
             icon={faClose}
             id="sidebar-close-icon"
-            onClick={() => handleSidebarClick()}
+            onClick={() => toggleShowSidebar()}
             size="lg"
           />
           <div id="sideBarLinks">
             <div className="sidebar-link-singlewrap">
-              <Link to="/about">About</Link>
-              {location.pathname === '/about' ? <p className="upside-down-p">About</p> : null }
+              <Link to="/">Home</Link>
+              {location.pathname === "/" ? (
+                <p className="upside-down-p">Home</p>
+              ) : null}
             </div>
             <div className="sidebar-link-singlewrap">
-              <Link to="/">Home</Link>
-              {location.pathname === '/' ? <p className="upside-down-p">Home</p> : null }
+              <Link to="/about">About</Link>
+              {location.pathname === "/about" ? (
+                <p className="upside-down-p">About</p>
+              ) : null}
             </div>
+
             <HeaderSearch />
           </div>
         </div>

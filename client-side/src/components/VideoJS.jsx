@@ -5,7 +5,7 @@ import "video.js/dist/video-js.css";
 export const VideoJS = (props) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
-  const { options, onReady } = props;
+  const { options, onReady, setTimestamp1 } = props;
 
   useEffect(() => {
     // Make sure Video.js player is only initialized once
@@ -13,14 +13,23 @@ export const VideoJS = (props) => {
       // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
       const videoElement = document.createElement("video-js");
 
-      videoElement.classList.add("vjs-big-play-centered", "self-overwrite-size");
+      videoElement.classList.add(
+        "vjs-big-play-centered",
+        "self-overwrite-size"
+      );
       videoRef.current.appendChild(videoElement);
 
       const player = (playerRef.current = videojs(videoElement, options, () => {
-        videojs.log("player is ready");
-        onReady && onReady(player);
-      }).ready(() => {
-        // this
+        player.on("waiting", () => {
+          videojs.log("player is waiting");
+        });
+
+        player.on("dispose", () => {
+          videojs.log("player will dispose");
+        });
+        player.on("timeupdate", function () {
+          setTimestamp1(player.currentTime());
+        });
       }));
       // player.width(window.screen.width)
       // player.height(window.screen.height - 48)
@@ -34,7 +43,7 @@ export const VideoJS = (props) => {
       player.autoplay(options.autoplay);
       player.src(options.sources);
     }
-  }, [options, videoRef]);
+  }, []);
 
   // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {
