@@ -36,9 +36,12 @@
 // colors
 $ogMain: rgb(70, 50, 2);
 $overlayColors: rgba(70, 50, 2);
+$antique-white: #EEECE0;
 $green: #acc0b5;
 $beige: #d0cbb7;
 $concrete: #b9b9b1;
+
+
 // $main-text: #
 
 * {
@@ -62,12 +65,18 @@ $concrete: #b9b9b1;
     a:visited {
       color: antiquewhite;
     }
+    a:hover {
+      background-image: linear-gradient(to right, $beige, black 60%, $beige);
+    }
   }
   .outlet-wrapper {
     .home-wrapper {
       .video-wrapper {
         .video-overlay {
-          background-color: rgba(0, 0, 0, 0.5);
+          // background-image: linear-gradient($green 10%, $beige 20%, $beige 80%, $green 90%);
+          // opacity: 0.5;
+          background-image: linear-gradient($green 10%, $concrete 20%, $concrete 80%, $green 90%);
+          opacity: 0.3;
         }
       }
       .search-home-wrapper {
@@ -168,6 +177,7 @@ footer {
     // make hamburger icon sti  cky to one place
     #sidebar-open-icon {
       top: 2.5rem;
+      left: 1rem;
       position: fixed;
       padding: 5px;
       color: black;
@@ -175,6 +185,9 @@ footer {
       border-radius: 180px;
       background: white;
       z-index: 2;
+      height: 1.5rem;
+      width: 1.5rem;
+
     }
     .sidebar {
       z-index: 3;
@@ -244,11 +257,23 @@ footer {
     // padding-left: 10%;
     gap: 3rem;
     padding: 10px;
+    position: sticky;
+    z-index: 3;
+    img {
+      padding: 5px;
+    }
     .headerLinks {
       display: flex;
       gap: 2rem;
       a {
         text-decoration: none;
+        transition: all 0.2s ease;
+        padding: 5px;
+      }
+      a:hover {
+        font-weight: 600;
+        transition: all 0.2s ease;
+        background-repeat: no-repeat;
       }
     }
   }

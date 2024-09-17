@@ -52,16 +52,12 @@ function App() {
   //   }
   // }
 
-  // useEffect(() => {
-  //   const sidebarOpen = document.getElementById("sidebar-open-icon");
-  //   if (
-  //     sidebarOpen.style.display !== "flex"
-  //     // sidebarOpen.style.display === "flex" &&
-  //     // sidebarLinks.style.display === "none"
-  //   ) {
-  //     handleSidebarClick()
-  //   }
-  // });
+  useEffect(() => {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar.classList.contains("active")) {
+      toggleShowSidebar();
+    }
+  }, [location.pathname]);
 
   //searchBar component
   const HeaderSearch = () => {

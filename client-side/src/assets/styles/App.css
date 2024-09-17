@@ -50,8 +50,12 @@
 .original header.desktop a:visited {
   color: antiquewhite;
 }
+.original header.desktop a:hover {
+  background-image: linear-gradient(to right, #d0cbb7, black 60%, #d0cbb7);
+}
 .original .outlet-wrapper .home-wrapper .video-wrapper .video-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-image: linear-gradient(#acc0b5 10%, #b9b9b1 20%, #b9b9b1 80%, #acc0b5 90%);
+  opacity: 0.3;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home h1 {
   color: #acc0b5;
@@ -130,6 +134,7 @@ footer {
   }
   header.mobile #sidebar-open-icon {
     top: 2.5rem;
+    left: 1rem;
     position: fixed;
     padding: 5px;
     color: black;
@@ -137,6 +142,8 @@ footer {
     border-radius: 180px;
     background: white;
     z-index: 2;
+    height: 1.5rem;
+    width: 1.5rem;
   }
   header.mobile .sidebar {
     z-index: 3;
@@ -190,6 +197,11 @@ footer {
     display: flex;
     gap: 3rem;
     padding: 10px;
+    position: sticky;
+    z-index: 3;
+  }
+  header.desktop img {
+    padding: 5px;
   }
   header.desktop .headerLinks {
     display: flex;
@@ -197,6 +209,13 @@ footer {
   }
   header.desktop .headerLinks a {
     text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 5px;
+  }
+  header.desktop .headerLinks a:hover {
+    font-weight: 600;
+    transition: all 0.2s ease;
+    background-repeat: no-repeat;
   }
   .outlet-wrapper .home-wrapper .search-home-wrapper .search-home {
     width: 50%;
