@@ -1,14 +1,22 @@
-import express from "express";
+import express, { json, response } from "express";
 import axios from "axios";
 import e from "express";
+import cors from 'cors'
 
 const app = express();
-const port = process.env.PORT || 8080;
-const apiKey = '60aac70c68dbae5dede13d1396f54c48';
+app.use(cors())
+app.use(express.json())
+const port = process.env.PORT || 5000;
+const apiKey = '272013ce8e3a006ee0055e8120e3d22f';
+
+app.use((err, req, res, next) => {
+  return res.json({ errorMessage: err.message });
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to my server!");
 });
+
 
 let titles = [];
 // loop through the results and display the title, poster_path, release_date and vote_average
@@ -31,27 +39,30 @@ app.get("/search", (req, res) => {
   // if movie has more than 1 search result:
   // loop through the results and display the title, poster_path, release_date and vote_average
   const inputUser = req.url.split("=")[1];
+  const test = {name: 'test'}
   // console.log(res);
   // Movie Details with id given from above query
   // 'https://api.themoviedb.org/3/movie/' + id + '?api_key=API_KEY'
-
   // WHAT STILL NEEDS TO BE DONE: add page counter with url &page=PAGENUMER
-  axios
-    .get(
-      "https://api.themoviedb.org/3/search/movie?query=" +
-      inputUser +
-      "&api_key=" + apiKey
-    )
-    .then((result) => {
-      if (result.data.results.length > 1) {
-        quickSearch(result.data.results);
-      } else {
-        // res.send(result.data.results);
-      }
-    })
-    .finally((finalRes) => {
-      res.send(titles);
-    });
+  // axios
+  //   .get(
+  //     "https://api.themoviedb.org/3/search/movie?query=" +
+  //     inputUser +
+  //     "&api_key=" + apiKey
+  //   )
+  //   .then((result) => {
+  //     if (result.data.results.length > 1) {
+  //       quickSearch(result.data.results);
+  //     } else {
+  //       // res.send(result.data.results);
+  //     }
+  //   })
+  //   .finally((finalRes) => {
+  //     res.send(titles);
+  //   });
+  console.log(test);
+  res.send(test)
+  
 });
 
 // get singlemovie and send as response
@@ -107,11 +118,12 @@ app.get("/getPopulairAll", (req, res) => {
 
 const options = {
   method: 'GET',
-  url: 'https://api.themoviedb.org/3/trending/all/day?language=en-US',
-  headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer 60aac70c68dbae5dede13d1396f54c48'
-  }
+  // url: 'https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=' + apiKey,
+  url: 'http://localhost:5000/search',
+  // headers: {
+  //   accept: 'application/json',
+  //   // Authorization: 'Bearer '
+  // }
 };
 
 axios

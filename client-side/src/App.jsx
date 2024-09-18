@@ -15,9 +15,20 @@ function App() {
   const location = useLocation();
 
   function searchReqClientSide() {
-    // axios.get('../../search')
+    console.log('before client search');
+    
+    axios.get('http://localhost:5000/search').then((res) => {
+      console.log(res);
+      
+      console.log('during client side');
+    }).catch((err) => {
+      console.error(err)
+    })
   }
-
+  // useEffect(() => {
+  //   searchReqClientSide()
+  // },[])
+  // searchReqClientSide()
   // function handleSidebarClick() {
   //   const sidebar = document.getElementById("sideBar");
   //   const sidebarOpen = document.getElementById("sidebar-open-icon");
@@ -51,7 +62,7 @@ function App() {
   //     sidebarClose.style.display = "none";
   //   }
   // }
-
+  
   useEffect(() => {
     const sidebar = document.querySelector(".sidebar");
     if (sidebar.classList.contains("active")) {
@@ -242,6 +253,7 @@ function App() {
       <div className="outlet-wrapper">
         <Outlet />
       </div>
+      <button onClick={() => searchReqClientSide()}>button</button>
       <footer></footer>
     </div>
   );
