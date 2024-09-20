@@ -11,7 +11,7 @@ function App() {
   const [logo, setLogo] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sidebarActive, setSidebarActive] = useState(false);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const [searchActive, setSearchActive] = useState(false);
 
   const location = useLocation();
@@ -19,6 +19,14 @@ function App() {
   // ref test
   const searchInputRef = useRef(null);
   const searchHeaderRef = useRef(null);
+
+  useEffect(() => {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar.classList.contains("active")) {
+      toggleShowSidebar();
+    }
+  }, [location.pathname]);
+
 
   async function searchReqClientSide() {
     console.log("before client search");
@@ -33,101 +41,97 @@ function App() {
       console.log(e);
     }
   }
-  // useEffect(() => {
-  //   searchReqClientSide()
-  // },[])
-  // searchReqClientSide()
-  // function handleSidebarClick() {
-  //   const sidebar = document.getElementById("sideBar");
-  //   const sidebarOpen = document.getElementById("sidebar-open-icon");
-  //   const sidebarClose = document.getElementById("sidebar-close-icon");
-  //   const sidebarLinks = document.getElementById("sideBarLinks");
 
-  //   // sidebar slideshow
-  //   if (
-  //     sidebarOpen.style.display === "flex"
-  //     // sidebarOpen.style.display === "flex" &&
-  //     // sidebarLinks.style.display === "none"
-  //   ) {
-  //     sidebarOpen.style.display = "none";
+  // const handleClickOutside = (e) => {
+  //   if (!searchHeaderRef.current.contains(e.target) && searchActive) {
+  //     console.log(document.getElementById("search-header"));
+  //     console.log(searchHeaderRef.current);
+  //     console.log(e.target);
 
-  //     sidebar.style.animation = "sidebarSlideOpen 0.5s ease";
+  //     console.log(document.getElementById("search-header").contains(e.target));
 
-  //     setTimeout(() => {
-  //       sidebar.style.display = "flex";
+  //     console.log("clicked outside of me");
+  //     setSearchActive(false);
+  //   }
+  // };
 
-  //       sidebarLinks.style.display = "flex";
-  //     sidebarClose.style.display = "flex";
-  //     }, 500);
-
-  //   } else {
-  //     setTimeout(() => {
-  //       sidebar.style.display = "none";
-  //     }, 500);
-  //     sidebar.style.animation = "sidebarSlideClose 0.5s ease";
-  //     sidebarLinks.style.display = "none";
-  //     sidebarOpen.style.display = "flex";
-  //     sidebarClose.style.display = "none";
+  // function useOutsideAlerter(ref) {
+  //   if (location.pathname !== "/" && searchActive) {
+  //     useEffect(() => {
+  //       /**
+  //        * Alert if clicked on outside of element
+  //        */
+  //       function handleClickOutside(event) {
+  //         if (ref.current && !ref.current.contains(event.target)) {
+  //           console.log("clicked outside");
+  //         }
+  //       }
+  //       // Bind the event listener
+  //       document.addEventListener("click", handleClickOutside);
+  //       return () => {
+  //         // Unbind the event listener on clean up
+  //         document.removeEventListener("click", handleClickOutside);
+  //       };
+  //     }, [ref]);
+  //     return ref
   //   }
   // }
-
-  useEffect(() => {
-    const sidebar = document.querySelector(".sidebar");
-    if (sidebar.classList.contains("active")) {
-      toggleShowSidebar();
-    }
-  }, [location.pathname]);
-
-  const handleClickOutside = (e) => {
-    if (
-      !searchInputRef.current.contains(e.target) && 
-      searchActive
-    ) {
-      console.log(document.getElementById("search-header"));
-      console.log(searchHeaderRef.current);
-      console.log(e.target);
-
-      console.log(
-        document.getElementById("search-header").contains(e.target)
-      );
-
-      console.log("clicked outside of me");
-
-      // console.log(searchHeaderRef.current);
-      // console.log(e.target);
-
-      setSearchActive(false);
-    }
+  // https://www.robinwieruch.de/react-hook-detect-click-outside-component/
+  const useOutsideClick = (callback) => {
+    const ref = useRef();
+  
+    useEffect(() => {
+      const handleClick = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          callback();
+        }
+      };
+  
+      document.addEventListener('click', handleClick, true);
+  
+      return () => {
+        document.removeEventListener('click', handleClick, true);
+      };
+    }, [ref]);
+  
+    return ref;
   };
+
+  const handleHeaderClick = (event) => {
+    // do something
+
+    event.stopPropagation();
+  };
+
+  function test() {
+    console.log('clicked outside');
+    
+  }
+  const ref = useOutsideClick(test)
 
   //searchBar component
   const HeaderSearch = () => {
-    useEffect(() => {
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        document.removeEventListener("click", handleClickOutside);
-      };
-    }, []);
+  // const testOutside = useOutsideAlerter(searchHeaderRef);
 
-    const searchOpen = () => {
-      const searchInput = searchInputRef.current;
-      if (searchInput && !searchInput.classList.contains("active")) {
-        searchInput.style.animation = "";
-        setTimeout(() => {
-          searchInput.classList.add("active");
-        }, 500);
-      }
-    };
+    // const searchOpen = () => {
+    //   const searchInput = searchInputRef.current;
+    //   if (searchInput && !searchInput.classList.contains("active")) {
+    //     searchInput.style.animation = "";
+    //     setTimeout(() => {
+    //       searchInput.classList.add("active");
+    //     }, 500);
+    //   }
+    // };
 
-    const searchClose = () => {
-      const searchInput = searchInputRef.current;
-      // if (searchInput.classList.contains("active")) {
-      //   searchInput.style.animation = "searchInputClose 0.5s ease";
-      //   setTimeout(() => {
-      //     searchInput.classList.remove("active");
-      //   }, 500);
-      // }
-    };
+    // const searchClose = () => {
+    //   const searchInput = searchInputRef.current;
+    //   // if (searchInput.classList.contains("active")) {
+    //   //   searchInput.style.animation = "searchInputClose 0.5s ease";
+    //   //   setTimeout(() => {
+    //   //     searchInput.classList.remove("active");
+    //   //   }, 500);
+    //   // }
+    // };
 
     function checkInput(event) {
       if (event.keyCode !== 13) {
@@ -137,7 +141,7 @@ function App() {
 
     if (location.pathname !== "/") {
       return (
-        <div id="search-header" className="search-header" ref={searchHeaderRef}>
+        <div id="search-header" className="search-header" ref={ref}>
           <FontAwesomeIcon
             className="search-icon"
             id="search-icon"
@@ -151,7 +155,7 @@ function App() {
             value={search}
             onKeyDown={(e) => checkInput(e)}
             onChange={(e) => setSearch(e.target.value)}
-            ref={searchInputRef}
+            // ref={searchInputRef}
             // onClick={() => searchReqClientSide()}
             placeholder="Search..."
           />
@@ -210,7 +214,6 @@ function App() {
   const toggleSearchInput = () => {
     console.log("valueOf = " + searchActive);
 
-
     console.log(searchActive + " ToggleSearchInputFunction");
 
     setSearchActive(!searchActive);
@@ -219,7 +222,7 @@ function App() {
   // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
-    <div className={theme}>
+    <div onClick={() => handleHeaderClick} className={theme}>
       <div className="selectTheme">
         <div
           className="box original"
@@ -282,6 +285,7 @@ function App() {
       </div>
       <button onClick={() => searchReqClientSide()}>button</button>
       <footer></footer>
+      {/* <useOutsideAlerter/> */}
     </div>
   );
 }
