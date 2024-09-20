@@ -113,18 +113,18 @@ footer {
   border-right: none;
   height: 16px;
 }
-.search-header input {
+.search-header .search-input {
   border: 0;
   outline: none;
   box-shadow: 0;
   width: 0;
   opacity: 0;
-  transition: opacity 0.1s ease;
+  transition: 200ms;
 }
-.search-header input.active {
+.search-header .search-input.active {
   width: 8rem;
   opacity: 1;
-  transition: opacity 0.1s ease;
+  transition: 200ms;
 }
 
 @media only screen and (max-width: 900px) {

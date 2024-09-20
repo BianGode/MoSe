@@ -11,19 +11,27 @@ function App() {
   const [logo, setLogo] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sidebarActive, setSidebarActive] = useState(false);
+  const [search, setSearch] = useState();
+  const [searchActive, setSearchActive] = useState(false);
 
   const location = useLocation();
 
-  function searchReqClientSide() {
-    console.log('before client search');
-    
-    axios.get('http://localhost:5000/search').then((res) => {
-      console.log(res);
-      
-      console.log('during client side');
-    }).catch((err) => {
-      console.error(err)
-    })
+  // ref test
+  const searchInputRef = useRef(null);
+  const searchHeaderRef = useRef(null);
+
+  async function searchReqClientSide() {
+    console.log("before client search");
+    try {
+      const response = await axios.get("http://localhost:5000/search", {
+        params: {
+          search: search,
+        },
+      });
+      console.log(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   }
   // useEffect(() => {
   //   searchReqClientSide()
@@ -62,7 +70,7 @@ function App() {
   //     sidebarClose.style.display = "none";
   //   }
   // }
-  
+
   useEffect(() => {
     const sidebar = document.querySelector(".sidebar");
     if (sidebar.classList.contains("active")) {
@@ -70,12 +78,30 @@ function App() {
     }
   }, [location.pathname]);
 
+  const handleClickOutside = (e) => {
+    if (
+      !searchInputRef.current.contains(e.target) && 
+      searchActive
+    ) {
+      console.log(document.getElementById("search-header"));
+      console.log(searchHeaderRef.current);
+      console.log(e.target);
+
+      console.log(
+        document.getElementById("search-header").contains(e.target)
+      );
+
+      console.log("clicked outside of me");
+
+      // console.log(searchHeaderRef.current);
+      // console.log(e.target);
+
+      setSearchActive(false);
+    }
+  };
+
   //searchBar component
   const HeaderSearch = () => {
-    const [search, setSearch] = useState("");
-    const searchInputRef = useRef(null);
-    const searchHeaderRef = useRef(null);
-
     useEffect(() => {
       document.addEventListener("click", handleClickOutside);
       return () => {
@@ -86,7 +112,7 @@ function App() {
     const searchOpen = () => {
       const searchInput = searchInputRef.current;
       if (searchInput && !searchInput.classList.contains("active")) {
-        searchInput.style.animation = "searchInputOpen 0.5s ease";
+        searchInput.style.animation = "";
         setTimeout(() => {
           searchInput.classList.add("active");
         }, 500);
@@ -95,21 +121,12 @@ function App() {
 
     const searchClose = () => {
       const searchInput = searchInputRef.current;
-      if (searchInput.classList.contains("active")) {
-        searchInput.style.animation = "searchInputClose 0.5s ease";
-        setTimeout(() => {
-          searchInput.classList.remove("active");
-        }, 500);
-      }
-    };
-
-    const handleClickOutside = (e) => {
-      if (
-        searchHeaderRef.current &&
-        !searchHeaderRef.current.contains(e.target)
-      ) {
-        searchClose();
-      }
+      // if (searchInput.classList.contains("active")) {
+      //   searchInput.style.animation = "searchInputClose 0.5s ease";
+      //   setTimeout(() => {
+      //     searchInput.classList.remove("active");
+      //   }, 500);
+      // }
     };
 
     function checkInput(event) {
@@ -125,19 +142,20 @@ function App() {
             className="search-icon"
             id="search-icon"
             icon={faSearch}
-            // onClick={() => searchReqClientSide()}
-            onClick={() => searchOpen()}
+            onClick={() => toggleSearchInput()}
           />
           <input
             id="search-input"
-            // className="active"
+            className={searchActive ? "search-input active" : "search-input"}
             type="text"
             value={search}
             onKeyDown={(e) => checkInput(e)}
             onChange={(e) => setSearch(e.target.value)}
             ref={searchInputRef}
+            // onClick={() => searchReqClientSide()}
             placeholder="Search..."
           />
+          <button></button>
         </div>
       );
     } else {
@@ -187,6 +205,15 @@ function App() {
   // };
   const toggleShowSidebar = () => {
     setSidebarActive(!sidebarActive);
+  };
+
+  const toggleSearchInput = () => {
+    console.log("valueOf = " + searchActive);
+
+
+    console.log(searchActive + " ToggleSearchInputFunction");
+
+    setSearchActive(!searchActive);
   };
 
   // onClickOutside()

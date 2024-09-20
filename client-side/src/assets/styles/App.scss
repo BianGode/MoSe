@@ -152,7 +152,7 @@ footer {
     border-right: none;
     height: 16px;
   }
-  input {
+  .search-input {
     // border: 3px solid black;
     border: 0;
     // height: inherit;
@@ -160,12 +160,13 @@ footer {
     box-shadow: 0;
     width: 0;
     opacity: 0;
-    transition: opacity 0.1s ease;
+    transition: 200ms;
   }
-  input.active {
+  .search-input.active {
     width: 8rem;
     opacity: 1;
-    transition: opacity 0.1s ease;
+    // animation: searchInputOpen 0.5s ease;
+    transition: 200ms;
   }
 }
 
