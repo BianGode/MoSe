@@ -13,6 +13,9 @@ function App() {
   const [sidebarActive, setSidebarActive] = useState(false);
   const [search, setSearch] = useState("");
   const [searchActive, setSearchActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < 910 ? true : false
+  );
 
   const location = useLocation();
 
@@ -26,7 +29,6 @@ function App() {
       toggleShowSidebar();
     }
   }, [location.pathname]);
-
 
   async function searchReqClientSide() {
     console.log("before client search");
@@ -78,40 +80,41 @@ function App() {
   // }
   // https://www.robinwieruch.de/react-hook-detect-click-outside-component/
   const useOutsideClick = (callback) => {
-    const ref = useRef();
-  
+    const reference = useRef();
+
     useEffect(() => {
       const handleClick = (event) => {
-        if (ref.current && !ref.current.contains(event.target)) {
+        if (reference.current && !reference.current.contains(event.target)) {
+          console.log(reference.current);
+          console.log(event.target);
+          console.log(reference.current.contains(event.target))
           callback();
         }
       };
-  
-      document.addEventListener('click', handleClick, true);
-  
+
+      document.addEventListener("click", handleClick);
+
       return () => {
-        document.removeEventListener('click', handleClick, true);
+        document.removeEventListener("click", handleClick);
       };
-    }, [ref]);
-  
-    return ref;
+    }, [reference]);
+
+    return reference;
   };
 
   const handleHeaderClick = (event) => {
     // do something
 
-    event.stopPropagation();
+    event.preventDefault();
   };
 
   function test() {
-    console.log('clicked outside');
-    
+    console.log("clicked outside");
   }
-  const ref = useOutsideClick(test)
 
   //searchBar component
-  const HeaderSearch = () => {
-  // const testOutside = useOutsideAlerter(searchHeaderRef);
+  const HeaderSearch = ({ screenWidth }) => {
+    // const testOutside = useOutsideAlerter(searchHeaderRef);
 
     // const searchOpen = () => {
     //   const searchInput = searchInputRef.current;
@@ -138,30 +141,57 @@ function App() {
         setSearch(event.target.value);
       }
     }
+    const mobileRef = useOutsideClick(test);
+    const ref = useOutsideClick(test);
 
     if (location.pathname !== "/") {
-      return (
-        <div id="search-header" className="search-header" ref={ref}>
-          <FontAwesomeIcon
-            className="search-icon"
-            id="search-icon"
-            icon={faSearch}
-            onClick={() => toggleSearchInput()}
-          />
-          <input
-            id="search-input"
-            className={searchActive ? "search-input active" : "search-input"}
-            type="text"
-            value={search}
-            onKeyDown={(e) => checkInput(e)}
-            onChange={(e) => setSearch(e.target.value)}
-            // ref={searchInputRef}
-            // onClick={() => searchReqClientSide()}
-            placeholder="Search..."
-          />
-          <button></button>
-        </div>
-      );
+      if (screenWidth == "mobile") {
+        return (
+          <div id="search-header" className="search-header mob" ref={mobileRef}>
+            <FontAwesomeIcon
+              className="search-icon"
+              id="search-icon"
+              icon={faSearch}
+              onClick={() => toggleSearchInput()}
+            />
+            <input
+              id="search-input"
+              className={searchActive ? "search-input active" : "search-input"}
+              type="text"
+              value={search}
+              onKeyDown={(e) => checkInput(e)}
+              onChange={(e) => setSearch(e.target.value)}
+              // ref={searchInputRef}
+              // onClick={() => searchReqClientSide()}
+              placeholder="Search..."
+            />
+            <button></button>
+          </div>
+        );
+      } else {
+        return (
+          <div id="search-header" className="search-header desk" ref={ref}>
+            <FontAwesomeIcon
+              className="search-icon"
+              id="search-icon"
+              icon={faSearch}
+              onClick={() => toggleSearchInput()}
+            />
+            <input
+              id="search-input"
+              className={searchActive ? "search-input active" : "search-input"}
+              type="text"
+              value={search}
+              onKeyDown={(e) => checkInput(e)}
+              onChange={(e) => setSearch(e.target.value)}
+              // ref={searchInputRef}
+              // onClick={() => searchReqClientSide()}
+              placeholder="Search..."
+            />
+            <button></button>
+          </div>
+        );
+      }
     } else {
       return null;
     }
@@ -222,7 +252,7 @@ function App() {
   // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
-    <div onClick={() => handleHeaderClick} className={theme}>
+    <div className={theme}>
       <div className="selectTheme">
         <div
           className="box original"
@@ -241,8 +271,9 @@ function App() {
         {
           // if the homepage active then not show the search component in the header
           // else do show
+
+          isMobile ? null : <HeaderSearch screenWidth="desk" />
         }
-        <HeaderSearch />
       </header>
       <header className="mobile">
         <FontAwesomeIcon
@@ -276,7 +307,7 @@ function App() {
               ) : null}
             </div>
 
-            <HeaderSearch />
+            {isMobile ? <HeaderSearch screenWidth="mobile" /> : null}
           </div>
         </div>
       </header>

@@ -173,9 +173,8 @@ footer {
 @media only screen and (max-width: 900px) {
   header.mobile {
     background-color: black;
-
     display: flex;
-    // make hamburger icon sti  cky to one place
+    // make hamburger icon sticky to one place
     #sidebar-open-icon {
       top: 2.5rem;
       left: 1rem;
