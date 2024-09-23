@@ -89,13 +89,16 @@ function App() {
           console.log(event.target);
           console.log(reference.current.contains(event.target))
           callback();
+        } else {
+          console.log('clicked inside!');
+          
         }
       };
 
-      document.addEventListener("click", handleClick);
+      document.addEventListener("click", handleClick, true);
 
       return () => {
-        document.removeEventListener("click", handleClick);
+        document.removeEventListener("click", handleClick, true);
       };
     }, [reference]);
 
@@ -112,8 +115,10 @@ function App() {
     console.log("clicked outside");
   }
 
+
   //searchBar component
   const HeaderSearch = ({ screenWidth }) => {
+    const ref = useOutsideClick(test);
     // const testOutside = useOutsideAlerter(searchHeaderRef);
 
     // const searchOpen = () => {
@@ -141,13 +146,12 @@ function App() {
         setSearch(event.target.value);
       }
     }
-    const mobileRef = useOutsideClick(test);
-    const ref = useOutsideClick(test);
+    
 
     if (location.pathname !== "/") {
-      if (screenWidth == "mobile") {
+      // if (screenWidth == "mobile") {
         return (
-          <div id="search-header" className="search-header mob" ref={mobileRef}>
+          <div id="search-header" className="search-header mob" ref={ref}>
             <FontAwesomeIcon
               className="search-icon"
               id="search-icon"
@@ -168,30 +172,7 @@ function App() {
             <button></button>
           </div>
         );
-      } else {
-        return (
-          <div id="search-header" className="search-header desk" ref={ref}>
-            <FontAwesomeIcon
-              className="search-icon"
-              id="search-icon"
-              icon={faSearch}
-              onClick={() => toggleSearchInput()}
-            />
-            <input
-              id="search-input"
-              className={searchActive ? "search-input active" : "search-input"}
-              type="text"
-              value={search}
-              onKeyDown={(e) => checkInput(e)}
-              onChange={(e) => setSearch(e.target.value)}
-              // ref={searchInputRef}
-              // onClick={() => searchReqClientSide()}
-              placeholder="Search..."
-            />
-            <button></button>
-          </div>
-        );
-      }
+      // }
     } else {
       return null;
     }
