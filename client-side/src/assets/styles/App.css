@@ -31,9 +31,92 @@
     width: 0;
   }
 }
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 50% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 50% 50%;
+  }
+  100% {
+    background-position: 0%, 0%;
+  }
+}
+@keyframes gradientThree {
+  0% {
+    background-position: 0% 0%;
+  }
+  10% {
+    background-position: 20% 20%;
+  }
+  20% {
+    background-position: 40% 40%;
+  }
+  30% {
+    background-position: 60% 60%;
+  }
+  40% {
+    background-position: 80% 80%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  60% {
+    background-position: 80% 80%;
+  }
+  70% {
+    background-position: 60% 60%;
+  }
+  80% {
+    background-position: 40% 40%;
+  }
+  90% {
+    background-position: 20% 20%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@keyframes Animation {
+  0% {
+    background-position: 10% 10%;
+  }
+  50% {
+    background-position: 91% 100%;
+  }
+  100% {
+    background-position: 10% 10%;
+  }
+}
+@keyframes AnimationTwo {
+  0% {
+    background-image: linear-gradient(-45deg, #d0cbb7, black 60%, #d0cbb7);
+  }
+  50% {
+    background-image: linear-gradient(to right, #d0cbb7, black 60%, #d0cbb7);
+  }
+  100% {
+    background-image: linear-gradient(45deg, #d0cbb7, black 60%, #d0cbb7);
+  }
+}
 * {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
+}
+
+body {
+  background-color: black;
+}
+
+#video-overlay {
+  background-size: 1000%;
+  background-image: linear-gradient(45deg, rgb(0, 0, 0), rgba(0, 0, 255, 0.9), rgb(0, 0, 0), rgba(112, 99, 56, 0.9), rgb(0, 0, 0), rgba(99, 86, 63, 0.9), rgb(0, 0, 0), rgb(0, 183, 255), rgb(0, 0, 0), rgba(184, 0, 31, 0.9));
 }
 
 .original svg {
@@ -45,20 +128,31 @@
 .original header.desktop {
   border-bottom: 2px dashed white;
   color: antiquewhite;
-  background-color: black;
+  z-index: 10;
 }
 .original header.desktop a:visited {
   color: antiquewhite;
 }
-.original header.desktop a:hover {
-  background-image: linear-gradient(to right, #d0cbb7, black 60%, #d0cbb7);
-}
 .original .outlet-wrapper .home-wrapper .video-wrapper .video-overlay {
-  background-image: linear-gradient(#acc0b5 10%, #b9b9b1 20%, #b9b9b1 80%, #acc0b5 90%);
-  opacity: 0.3;
+  animation: gradientThree 60s linear infinite;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home h1 {
-  color: #acc0b5;
+  color: white;
+}
+.original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap {
+  background-color: #3E424E;
+}
+.original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap .search-icon-home {
+  height: 1.8rem;
+}
+.original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap input {
+  background: linear-gradient(#000, #000) center bottom 5px/calc(100% - 10px) 2px no-repeat;
+  background-color: #3E424E;
+  border: none;
+  color: #D8D88C;
+  border-left: 1px solid;
+  height: 100%;
+  outline: none;
 }
 .original .sidebar {
   border-bottom: 100vh solid antiquewhite;
@@ -80,6 +174,8 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
+  z-index: 10;
+  position: relative;
 }
 .selectTheme .box {
   height: 90%;
@@ -146,7 +242,7 @@ footer {
     width: 1.5rem;
   }
   header.mobile .sidebar {
-    z-index: 3;
+    z-index: 100;
     height: 0;
     border-right: 100px solid transparent;
     width: 70%;
@@ -198,7 +294,6 @@ footer {
     gap: 3rem;
     padding: 10px;
     position: sticky;
-    z-index: 3;
   }
   header.desktop img {
     padding: 5px;
@@ -209,16 +304,11 @@ footer {
   }
   header.desktop .headerLinks a {
     text-decoration: none;
-    transition: all 0.2s ease;
     padding: 5px;
   }
   header.desktop .headerLinks a:hover {
     font-weight: 600;
-    transition: all 0.2s ease;
     background-repeat: no-repeat;
-  }
-  .outlet-wrapper .home-wrapper .search-home-wrapper .search-home {
-    width: 50%;
   }
   header.mobile {
     display: none;

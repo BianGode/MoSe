@@ -53,27 +53,28 @@ app.get("/search", (req, res) => {
   // 'https://api.themoviedb.org/3/movie/' + id + '?api_key=API_KEY'
   // WHAT STILL NEEDS TO BE DONE: add page counter with url &page=PAGENUMER
   async function searchReq() {
-    const inputUser = req.params.search
-
     try {
+      console.log(inputUser + " test");
       const result = await axios.get(
-        "https://api.themoviedb.org/3/search/movie?query=" +
+        "https://api.themoviedb.org/3/search/movie?language=en-US&query=" +
         inputUser +
         "&api_key=" + apiKey
       )
+      // console.log(result.data);
+
       if (result.data.results.length > 1) {
         quickSearch(result.data.results);
       } else {
         // res.send(result.data.results);
       }
-      result.send(titles);
+      res.send(titles);
     } catch (e) {
       console.log(e);
 
     }
 
   }
-  searchReq()
+  searchReq();
 
 });
 
@@ -127,6 +128,11 @@ app.get("/getPopulairAll", (req, res) => {
       console.log(err)
     })
 })
+
+// get populair people
+// https://api.themoviedb.org/3/person/popular?language=en-US&page=1&api_key=
+
+
 
 const options = {
   method: 'GET',

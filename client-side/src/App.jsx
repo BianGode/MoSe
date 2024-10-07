@@ -5,11 +5,18 @@ import "./assets/styles/App.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 function App() {
+  const [init, setInit] = useState(false);
+
+  const particlesLoaded = (container) => {
+    console.log(container);
+  };
+
   const [theme, setTheme] = useState("original");
   const [logo, setLogo] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sidebarActive, setSidebarActive] = useState(false);
   const [search, setSearch] = useState("");
   const [searchActive, setSearchActive] = useState(false);
@@ -19,65 +26,7 @@ function App() {
 
   const location = useLocation();
 
-  // ref test
-  const searchInputRef = useRef(null);
-  const searchHeaderRef = useRef(null);
 
-  useEffect(() => {
-    const sidebar = document.querySelector(".sidebar");
-    if (sidebar.classList.contains("active")) {
-      toggleShowSidebar();
-    }
-  }, [location.pathname]);
-
-  async function searchReqClientSide() {
-    console.log("before client search");
-    try {
-      const response = await axios.get("http://localhost:5000/search", {
-        params: {
-          search: search,
-        },
-      });
-      console.log(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  // const handleClickOutside = (e) => {
-  //   if (!searchHeaderRef.current.contains(e.target) && searchActive) {
-  //     console.log(document.getElementById("search-header"));
-  //     console.log(searchHeaderRef.current);
-  //     console.log(e.target);
-
-  //     console.log(document.getElementById("search-header").contains(e.target));
-
-  //     console.log("clicked outside of me");
-  //     setSearchActive(false);
-  //   }
-  // };
-
-  // function useOutsideAlerter(ref) {
-  //   if (location.pathname !== "/" && searchActive) {
-  //     useEffect(() => {
-  //       /**
-  //        * Alert if clicked on outside of element
-  //        */
-  //       function handleClickOutside(event) {
-  //         if (ref.current && !ref.current.contains(event.target)) {
-  //           console.log("clicked outside");
-  //         }
-  //       }
-  //       // Bind the event listener
-  //       document.addEventListener("click", handleClickOutside);
-  //       return () => {
-  //         // Unbind the event listener on clean up
-  //         document.removeEventListener("click", handleClickOutside);
-  //       };
-  //     }, [ref]);
-  //     return ref
-  //   }
-  // }
   // https://www.robinwieruch.de/react-hook-detect-click-outside-component/
   const useOutsideClick = (callback) => {
     const reference = useRef();
@@ -87,11 +36,10 @@ function App() {
         if (reference.current && !reference.current.contains(event.target)) {
           console.log(reference.current);
           console.log(event.target);
-          console.log(reference.current.contains(event.target))
+          console.log(reference.current.contains(event.target));
           callback();
         } else {
-          console.log('clicked inside!');
-          
+          console.log("clicked inside!");
         }
       };
 
@@ -105,73 +53,40 @@ function App() {
     return reference;
   };
 
-  const handleHeaderClick = (event) => {
-    // do something
-
-    event.preventDefault();
-  };
-
-  function test() {
-    console.log("clicked outside");
-  }
-
-
   //searchBar component
   const HeaderSearch = ({ screenWidth }) => {
-    const ref = useOutsideClick(test);
-    // const testOutside = useOutsideAlerter(searchHeaderRef);
-
-    // const searchOpen = () => {
-    //   const searchInput = searchInputRef.current;
-    //   if (searchInput && !searchInput.classList.contains("active")) {
-    //     searchInput.style.animation = "";
-    //     setTimeout(() => {
-    //       searchInput.classList.add("active");
-    //     }, 500);
-    //   }
-    // };
-
-    // const searchClose = () => {
-    //   const searchInput = searchInputRef.current;
-    //   // if (searchInput.classList.contains("active")) {
-    //   //   searchInput.style.animation = "searchInputClose 0.5s ease";
-    //   //   setTimeout(() => {
-    //   //     searchInput.classList.remove("active");
-    //   //   }, 500);
-    //   // }
-    // };
+    // const ref = useOutsideClick(test);
 
     function checkInput(event) {
       if (event.keyCode !== 13) {
         setSearch(event.target.value);
       }
     }
-    
 
     if (location.pathname !== "/") {
       // if (screenWidth == "mobile") {
-        return (
-          <div id="search-header" className="search-header mob" ref={ref}>
-            <FontAwesomeIcon
-              className="search-icon"
-              id="search-icon"
-              icon={faSearch}
-              onClick={() => toggleSearchInput()}
-            />
-            <input
-              id="search-input"
-              className={searchActive ? "search-input active" : "search-input"}
-              type="text"
-              value={search}
-              onKeyDown={(e) => checkInput(e)}
-              onChange={(e) => setSearch(e.target.value)}
-              // ref={searchInputRef}
-              // onClick={() => searchReqClientSide()}
-              placeholder="Search..."
-            />
-            <button></button>
-          </div>
-        );
+      return (
+        <div id="search-header" className="search-header mob">
+          <FontAwesomeIcon
+            className="search-icon"
+            id="search-icon"
+            icon={faSearch}
+            onClick={() => toggleSearchInput()}
+          />
+          <input
+            id="search-input"
+            className={searchActive ? "search-input active" : "search-input"}
+            type="text"
+            value={search}
+            onKeyDown={(e) => checkInput(e)}
+            onChange={(e) => setSearch(e.target.value)}
+            // ref={searchInputRef}
+            // onClick={() => searchReqClientSide()}
+            placeholder="Search..."
+          />
+          <button></button>
+        </div>
+      );
       // }
     } else {
       return null;
@@ -183,44 +98,39 @@ function App() {
     setTheme(color);
     console.log(color);
   }
-  // add animation for the search bar slide
 
-  // const searchOpen = () => {
-  //   const searchInput = document.getElementById("search-input");
-  //   const searchHeader = document.getElementById("search-header");
-  //   const searchIcon = document.getElementById("search-icon");
-  //   if (!searchInput.classList.contains("active")) {
-  //     searchInput.style.animation = "searchInputOpen 0.5s ease";
-  //     setTimeout(() => {
-  //       searchInput.classList.add("active");
-  //     }, 500);
-  //   }
-  // };
-
-  // detect click and then determine whether isclicked inside searchInput or outside
-  // const onClickOutside = () => {
-  //   console.log("first");
-  //   const searchInput = document.getElementById("search-input");
-  //   if (searchInput.classList.contains("active")) {
-  //     console.log("second,  contains active true");
-  //     document.addEventListener("click", (e) => {
-  //       console.log("third,  beginning click");
-  //       if (!searchInput.contains(e.target)) {
-  //         console.log("fourth, searchInput does not contain clicked element");
-  //         searchInput.classList.remove("active");
-  //         setTimeout(() => {
-  //           searchInput.style.animation = "searchInputClose 0.5s ease";
-  //           console.log("fifth, during timeout");
-  //         }, 500);
-  //       }
-  //     });
-  //   }
-  //   console.log("sixth, after everything");
-
-  // };
   const toggleShowSidebar = () => {
     setSidebarActive(!sidebarActive);
   };
+
+  // const videoOverlayColorSwitch = () => {
+  //   const yellow = "rgba(232, 245, 39, 0.9)";
+  //   const red = "rgba(245, 39, 39, 0.9)";
+  //   const green = "rgba(22, 255, 22, 0.9)";
+  //   const blue = "rgba(0, 89, 190, 0.9)";
+  //   const black = "rgba(0, 0, 0, 1)";
+  //   const colorArray = [
+  //     { color: yellow },
+  //     { color: red },
+  //     { color: green },
+  //     { color: blue },
+  //   ];
+  //   colorArray.forEach((color, i) => {
+  //     setTimeout(() => {
+  //       document.getElementById(
+  //         "video-overlay"
+  //       ).style.background = `linear-gradient(45deg, ${black} ,${color.color}, ${black}, ${color.color}, ${black})`;
+  //       document.getElementById("video-overlay").style.backgroundSize =
+  //         "400% 400%";
+  //       document.getElementById("video-overlay").style.transition =
+  //         "background 1s ease";
+  //     }, i * 5000);
+  //   });
+  //   // setInterval(() => {
+  //   //   document.getElementById('video-overlay').style.backgroundImage = `linear-gradient(45deg, ${black} ,${red}, ${black}, ${red}, ${black})`;
+  //   // }, 5000);
+  // };
+  // videoOverlayColorSwitch()
 
   const toggleSearchInput = () => {
     console.log("valueOf = " + searchActive);
@@ -230,10 +140,103 @@ function App() {
     setSearchActive(!searchActive);
   };
 
+  // this should be run only once per application lifetime
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    const sidebar = document.querySelector(".sidebar");
+    if (sidebar.classList.contains("active")) {
+      toggleShowSidebar();
+    }
+  }, [location.pathname]);
+
   // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
     <div className={theme}>
+      {init && (
+        <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          options={{
+            background: {
+              color: {
+                value: "#000000",
+              },
+              opacity: 0.4,
+            },
+            fullScreen: false,
+            fpsLimit: 120,
+            interactivity: {
+              events: {
+                onClick: {
+                  enable: false,
+                  mode: "push",
+                },
+                onHover: {
+                  enable: false,
+                  mode: "grab",
+                },
+                resize: true,
+              },
+              modes: {
+                push: {
+                  quantity: 4,
+                },
+                repulse: {
+                  distance: 50,
+                  duration: 0.4,
+                },
+              },
+            },
+            particles: {
+              color: {
+                value: '#ffffff' 
+              },
+              move: {
+                direction: "none",
+                enable: true,
+                outModes: {
+                  default: "bounce",
+                },
+                random: true,
+                speed: 1,
+                straight: false,
+              },
+              number: {
+                density: {
+                  enable: true,
+                  area: 800,
+                },
+                value: 80,
+              },
+              opacity: {
+                value: {min: 0.9, max: 1},
+              },
+              shape: {
+                type: "circle",
+                // fill: false,
+              },
+              size: {
+                value: { min: 1, max: 2 },
+              },
+            },
+            detectRetina: true,
+          }}
+        />
+      )}
       <div className="selectTheme">
         <div
           className="box original"
@@ -295,7 +298,7 @@ function App() {
       <div className="outlet-wrapper">
         <Outlet />
       </div>
-      <button onClick={() => searchReqClientSide()}>button</button>
+      {/* <button onClick={() => searchReqClientSide()}>button</button> */}
       <footer></footer>
       {/* <useOutsideAlerter/> */}
     </div>
