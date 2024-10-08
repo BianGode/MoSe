@@ -45,8 +45,15 @@ $yellow: rgba(112, 99, 56, 0.9);
 $red: rgb(184, 0, 31, 0.9);
 $green: rgba(99, 86, 63, 0.9);
 $blue: rgba(0,0,255,0.9);
-$lightblue: rgb(0, 183, 255);
+$lightblue: rgb(0, 183, 0.9);
+$purple: rgb(116, 8, 189);
 $black: rgba(0, 0, 0, 1);
+
+@keyframes testAnimation{
+  to {
+    background-position: 100% 100%;
+  }
+}
 
 @keyframes gradient {
   0% {
@@ -153,11 +160,13 @@ body {
       rgba(0, 0, 0, 1),
       $yellow,
       rgba(0, 0, 0, 1),
+      $red,
+      rgba(0, 0, 0, 1),
       $green,
       rgba(0, 0, 0, 1),
       $lightblue,
       rgba(0, 0, 0, 1),
-      $red,
+      $purple,
       );
 }
 .original {
@@ -185,7 +194,7 @@ body {
         .video-overlay {
           // background-position: 0% 0%;
           // border-radius: 40px;
-          opacity: 0.8;
+          // opacity: 0.8;
           animation: gradientThree 60s linear infinite;
           // background-position: 0% 0%;
           // height: 100%;

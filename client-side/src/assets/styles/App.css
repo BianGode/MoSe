@@ -31,6 +31,11 @@
     width: 0;
   }
 }
+@keyframes testAnimation {
+  to {
+    background-position: 100% 100%;
+  }
+}
 @keyframes gradient {
   0% {
     background-position: 0% 0%;
@@ -116,7 +121,7 @@ body {
 
 #video-overlay {
   background-size: 1000%;
-  background-image: linear-gradient(45deg, rgb(0, 0, 0), rgba(0, 0, 255, 0.9), rgb(0, 0, 0), rgba(112, 99, 56, 0.9), rgb(0, 0, 0), rgba(99, 86, 63, 0.9), rgb(0, 0, 0), rgb(0, 183, 255), rgb(0, 0, 0), rgba(184, 0, 31, 0.9));
+  background-image: linear-gradient(45deg, rgb(0, 0, 0), rgba(0, 0, 255, 0.9), rgb(0, 0, 0), rgba(112, 99, 56, 0.9), rgb(0, 0, 0), rgba(184, 0, 31, 0.9), rgb(0, 0, 0), rgba(99, 86, 63, 0.9), rgb(0, 0, 0), rgb(0, 183, 1), rgb(0, 0, 0), rgb(116, 8, 189));
 }
 
 .original svg {
@@ -134,7 +139,6 @@ body {
   color: antiquewhite;
 }
 .original .outlet-wrapper .home-wrapper .video-wrapper .video-overlay {
-  opacity: 0.8;
   animation: gradientThree 60s linear infinite;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home h1 {

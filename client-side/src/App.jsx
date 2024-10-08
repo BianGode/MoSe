@@ -26,7 +26,6 @@ function App() {
 
   const location = useLocation();
 
-
   // https://www.robinwieruch.de/react-hook-detect-click-outside-component/
   const useOutsideClick = (callback) => {
     const reference = useRef();
@@ -139,6 +138,44 @@ function App() {
 
     setSearchActive(!searchActive);
   };
+  const backgroundOverlay = document.getElementById("video-overlay");
+
+  // method to pause and play homescreenbackground animation
+  const toggleAnimation = () => {
+    let computedOverlay = window.getComputedStyle(backgroundOverlay);
+
+    computedOverlay.animationPlayState == "running"
+      ? (backgroundOverlay.style.animationPlayState = "paused")
+      : (backgroundOverlay.style.animationPlayState = "running");
+  };
+
+  // select theme component
+  const SelectTheme = () => {
+    const [playState, setPlayState] = useState();
+    
+    useEffect(() => {
+      setPlayState(window.getComputedStyle(document.getElementById("video-overlay")).animationPlayState == "running" ? 
+      'running' :
+      'paused')
+    },[]);
+    
+    return (
+      <div className="selectTheme">
+        <div
+          className="box original"
+          onClick={() => changeTheme("original")}
+        ></div>
+        <div className="box black" onClick={() => changeTheme("black")}></div>
+        <div className="box white" onClick={() => changeTheme("white")}></div>
+        {/* ternry for the homepage animation pause/play toggle */}
+        {playState == 'paused'? (
+          <p onClick={() => toggleAnimation()} >Pause</p>
+        ) : (
+          <p onClick={() => toggleAnimation()}>Play</p>
+        )}
+      </div>
+    );
+  };
 
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -203,7 +240,7 @@ function App() {
             },
             particles: {
               color: {
-                value: '#ffffff' 
+                value: "#ffffff",
               },
               move: {
                 direction: "none",
@@ -223,7 +260,7 @@ function App() {
                 value: 80,
               },
               opacity: {
-                value: {min: 0.9, max: 1},
+                value: { min: 0.9, max: 1 },
               },
               shape: {
                 type: "circle",
@@ -237,15 +274,7 @@ function App() {
           }}
         />
       )}
-      <div className="selectTheme">
-        <div
-          className="box original"
-          onClick={() => changeTheme("original")}
-        ></div>
-        <div className="box black" onClick={() => changeTheme("black")}></div>
-        <div className="box white" onClick={() => changeTheme("white")}></div>
-      </div>
-
+      <SelectTheme/>
       <header className="desktop">
         <img src={logo} alt="logo" />
         <div className="headerLinks">
