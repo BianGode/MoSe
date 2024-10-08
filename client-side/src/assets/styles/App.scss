@@ -185,7 +185,7 @@ body {
         .video-overlay {
           // background-position: 0% 0%;
           // border-radius: 40px;
-          // opacity: 0.7;
+          opacity: 0.8;
           animation: gradientThree 60s linear infinite;
           // background-position: 0% 0%;
           // height: 100%;
@@ -323,7 +323,7 @@ footer {
       border: 5px solid white;
       border-radius: 180px;
       background: white;
-      z-index: 2;
+      z-index: 90;
       height: 1.5rem;
       width: 1.5rem;
     }

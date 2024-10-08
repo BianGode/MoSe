@@ -134,6 +134,7 @@ body {
   color: antiquewhite;
 }
 .original .outlet-wrapper .home-wrapper .video-wrapper .video-overlay {
+  opacity: 0.8;
   animation: gradientThree 60s linear infinite;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home h1 {
@@ -237,7 +238,7 @@ footer {
     border: 5px solid white;
     border-radius: 180px;
     background: white;
-    z-index: 2;
+    z-index: 90;
     height: 1.5rem;
     width: 1.5rem;
   }

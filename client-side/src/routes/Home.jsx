@@ -7,10 +7,14 @@ import axios from "axios";
 
 function Home() {
   const [search, setSearch] = useState("");
-  const [searchRes, setSearchRes] = useState("")
+  const [searchRes, setSearchRes] = useState("");
 
   // const playerRef = useRef(null);
   const [timestamp1, setTimestamp1] = useState(null);
+
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < 910 ? true : false
+  );
 
   const videoJsOptions = {
     autoplay: true,
@@ -42,7 +46,6 @@ function Home() {
           console.log("clicked inside!");
           console.log(isSearchFocused);
           setIsSearchFocus(true);
-          // console.log(isSearchFocused);
         }
       };
 
@@ -58,7 +61,7 @@ function Home() {
 
   const removeActive = () => {
     console.log(isSearchFocused);
-    
+
     setIsSearchFocus(false);
 
     // document.querySelector(".search-home").classList.contains("active")
@@ -76,44 +79,30 @@ function Home() {
 
   // call to node back-end
   function searchReqClientSide(searchParam) {
-    axios.get("http://localhost:5000/search", {
-      params: {
-        search: searchParam,
-      },
-    }).then((res) => {
-      console.log(res.data);
-      
-      setSearchRes(res.data)
-    }).catch((err) => {
-      console.log(err);
-      
-    }).finally(() => {
-      console.log(searchRes);
-    });
+    axios
+      .get("http://localhost:5000/search", {
+        params: {
+          search: searchParam,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
 
-    // try {
-    //   const response = await axios.get("http://localhost:5000/search", {
-    //     params: {
-    //       search: searchParam,
-    //     },
-    //   });
-    //   setSearchRes(response.data)
-    // } catch (e) {
-    //   console.log(e);
-    // } finally {
-    //   console.log('test');
-      
-    //   console.log(searchRes);
-      
-    // }
+        setSearchRes(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        console.log(searchRes);
+      });
   }
 
   function searchCall(e) {
     // setSearch(e.target.value)
     // console.log();
-    
-    searchReqClientSide(e.target.value);
 
+    searchReqClientSide(e.target.value);
   }
 
   return (
@@ -126,22 +115,50 @@ function Home() {
         <div className={isSearchFocused ? "search-home active" : "search-home"}>
           <h1>Search the movie you want</h1>
           <div className="search-input-wrap">
-            <FontAwesomeIcon icon={faSearch} className="search-icon-home"/>
+            <FontAwesomeIcon icon={faSearch} className="search-icon-home" />
             <input
               ref={ref}
               // onClick={() => switchSearchBackground()}
               type="text"
               // value={search}
-              onChange={((e) => searchCall(e))}
+              onChange={(e) => searchCall(e)}
             />
           </div>
         </div>
       </div>
-      {
-        searchRes.length !== 0 ? searchRes.map((el) => {
-          return <p style={{ color: 'white'}}>{el.title}</p>
-        }) : null
-      }
+      {searchRes.length !== 0 ? (
+        <div className="result-wrapper">
+          {searchRes.map((el, index) => {
+            return (
+              <div className="result-card" key={index}>
+                <p className="result-home-p" style={{ color: "white" }}>{el.title}</p>
+                {!isMobile ? (
+                  <div className="result-image-wrap">
+                    <img
+                      src={
+                        "https://image.tmdb.org/t/p/original/" + el.poster_path
+                      }
+                      alt={el.title}
+                    />
+                    <div className="result-overlay">
+                      {Math.round(el.vote_average * 10) / 10}
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    className="result-image-mob"
+                    src={
+                      "https://image.tmdb.org/t/p/original/" + el.poster_path
+                    }
+                    alt={el.title}
+                  />
+                )}
+                <p>{el.release_date}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }
