@@ -4,6 +4,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import VideoJS from "../components/VideoJS";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -15,6 +16,8 @@ function Home() {
   const [isMobile, setIsMobile] = useState(
     window.innerWidth < 910 ? true : false
   );
+
+  const navigate = useNavigate();
 
   const videoJsOptions = {
     autoplay: true,
@@ -105,6 +108,10 @@ function Home() {
     searchReqClientSide(e.target.value);
   }
 
+  function navigateMovie(id) {
+    navigate('/singlemovie/' + id, {state: {id: id}});
+  }
+
   return (
     <div className="home-wrapper">
       <div className="video-wrapper">
@@ -130,7 +137,7 @@ function Home() {
         <div className="result-wrapper">
           {searchRes.map((el, index) => {
             return (
-              <div className="result-card" key={index}>
+              <div className="result-card" key={index} onClick={() => navigateMovie(el.id)}>
                 <p className="result-home-p" style={{ color: "white" }}>{el.title}</p>
                 {!isMobile ? (
                   <div className="result-image-wrap">

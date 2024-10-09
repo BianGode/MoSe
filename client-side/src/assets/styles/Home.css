@@ -150,6 +150,7 @@ canvas {
   transition: all 0.5s ease;
   height: 60%;
   border-radius: 15px;
+  border: 4px dashed white;
 }
 .outlet-wrapper .home-wrapper .result-wrapper {
   width: 90%;

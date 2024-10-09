@@ -12,7 +12,7 @@ function App() {
   const [init, setInit] = useState(false);
 
   const particlesLoaded = (container) => {
-    console.log(container);
+    // console.log(container);
   };
 
   const [theme, setTheme] = useState("original");
@@ -149,16 +149,10 @@ function App() {
       : (backgroundOverlay.style.animationPlayState = "running");
   };
 
+  const [playState, setPlayState] = useState();
+
   // select theme component
   const SelectTheme = () => {
-    const [playState, setPlayState] = useState();
-    
-    useEffect(() => {
-      setPlayState(window.getComputedStyle(document.getElementById("video-overlay")).animationPlayState == "running" ? 
-      'running' :
-      'paused')
-    },[]);
-    
     return (
       <div className="selectTheme">
         <div
@@ -168,8 +162,8 @@ function App() {
         <div className="box black" onClick={() => changeTheme("black")}></div>
         <div className="box white" onClick={() => changeTheme("white")}></div>
         {/* ternry for the homepage animation pause/play toggle */}
-        {playState == 'paused'? (
-          <p onClick={() => toggleAnimation()} >Pause</p>
+        {playState == "paused" ? (
+          <p onClick={() => toggleAnimation()}>Pause</p>
         ) : (
           <p onClick={() => toggleAnimation()}>Play</p>
         )}
@@ -183,12 +177,19 @@ function App() {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
       // starting from v2 you can add only the features you need reducing the bundle size
-      //await loadAll(engine);
-      //await loadFull(engine);
       await loadSlim(engine);
       //await loadBasic(engine);
     }).then(() => {
       setInit(true);
+
+      useEffect(() => {
+        setPlayState(
+          window.getComputedStyle(document.getElementById("video-overlay"))
+            .animationPlayState == "running"
+            ? "running"
+            : "paused"
+        );
+      }, []);
     });
   }, []);
 
@@ -249,7 +250,7 @@ function App() {
                   default: "bounce",
                 },
                 random: true,
-                speed: 1,
+                speed: 0.5,
                 straight: false,
               },
               number: {
@@ -274,7 +275,7 @@ function App() {
           }}
         />
       )}
-      <SelectTheme/>
+      <SelectTheme />
       <header className="desktop">
         <img src={logo} alt="logo" />
         <div className="headerLinks">

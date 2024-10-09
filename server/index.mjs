@@ -47,6 +47,8 @@ app.get("/search", (req, res) => {
   // if movie has more than 1 search result:
   // loop through the results and display the title, poster_path, release_date and vote_average
   const inputUser = req.url.split("=")[1];
+  console.log("test=== " + inputUser);
+  
   const test = { name: 'test' }
   // console.log(res);
   // Movie Details with id given from above query
@@ -83,11 +85,13 @@ app.get("/search", (req, res) => {
 app.get("/singleMovie", (req, res) => {
   let movieData = { movieDetails: "", cast: "" };
   const singleMovieId = req.url.split("=")[1];
+
+  console.log(singleMovieId);
   axios
     .get(
       "https://api.themoviedb.org/3/movie/" +
       singleMovieId +
-      "?api_key=" + apiKey
+      "?language=en-US&api_key=" + apiKey
     )
     .then((movieDetails) => {
       movieData.movieDetails = movieDetails.data;
@@ -101,6 +105,8 @@ app.get("/singleMovie", (req, res) => {
         )
         .then((castRes) => {
           // this works
+          console.log(castRes.data.cast);
+          
           movieData.cast = castRes.data.cast;
           // console.log(movieData);
           res.send(movieData);
