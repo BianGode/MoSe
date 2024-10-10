@@ -3,4 +3,7 @@
 }
 .single-movie-wrap * {
   color: white;
+}
+.single-movie-wrap .single-movie-poster {
+  height: 70vh;
 }/*# sourceMappingURL=SingleMovie.css.map */

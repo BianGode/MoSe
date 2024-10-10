@@ -141,18 +141,38 @@ function App() {
   const backgroundOverlay = document.getElementById("video-overlay");
 
   // method to pause and play homescreenbackground animation
-  const toggleAnimation = () => {
-    let computedOverlay = window.getComputedStyle(backgroundOverlay);
-
-    computedOverlay.animationPlayState == "running"
-      ? (backgroundOverlay.style.animationPlayState = "paused")
-      : (backgroundOverlay.style.animationPlayState = "running");
-  };
-
-  const [playState, setPlayState] = useState();
+  
 
   // select theme component
   const SelectTheme = () => {
+    const [playState, setPlayState] = useState('running');
+
+    const toggleAnimation = (pausePlayState) => {
+    
+      if (pausePlayState == "running") {
+        backgroundOverlay.style.animationPlayState = "paused";
+        setPlayState("paused");
+      } else {
+        backgroundOverlay.style.animationPlayState = "running";
+        setPlayState("running");
+      }
+    };
+
+    let computedOverlay;
+    useEffect(() => {
+      if (document.getElementById("video-overlay")) {
+        computedOverlay = window.getComputedStyle(
+          document.getElementById("video-overlay")
+        );
+        // setPlayState(
+        //   window.getComputedStyle(document.getElementById("video-overlay"))
+        //     .animationPlayState == "running"
+        //     ? "running"
+        //     : "paused"
+        // );
+      }
+    });
+
     return (
       <div className="selectTheme">
         <div
@@ -162,11 +182,25 @@ function App() {
         <div className="box black" onClick={() => changeTheme("black")}></div>
         <div className="box white" onClick={() => changeTheme("white")}></div>
         {/* ternry for the homepage animation pause/play toggle */}
-        {playState == "paused" ? (
-          <p onClick={() => toggleAnimation()}>Pause</p>
-        ) : (
-          <p onClick={() => toggleAnimation()}>Play</p>
-        )}
+        {location.pathname == "/" ? (
+          playState == "paused" ? (
+            <p
+              onClick={() =>
+                toggleAnimation(computedOverlay.animationPlayState)
+              }
+            >
+              Play
+            </p>
+          ) : (
+            <p
+              onClick={() =>
+                toggleAnimation(computedOverlay.animationPlayState)
+              }
+            >
+              Pause
+            </p>
+          )
+        ) : null}
       </div>
     );
   };
@@ -181,15 +215,6 @@ function App() {
       //await loadBasic(engine);
     }).then(() => {
       setInit(true);
-
-      useEffect(() => {
-        setPlayState(
-          window.getComputedStyle(document.getElementById("video-overlay"))
-            .animationPlayState == "running"
-            ? "running"
-            : "paused"
-        );
-      }, []);
     });
   }, []);
 
@@ -210,10 +235,10 @@ function App() {
           particlesLoaded={particlesLoaded}
           options={{
             background: {
-              color: {
-                value: "#000000",
-              },
-              opacity: 0.4,
+              // color: {
+              //   value: "#000000",
+              // },
+              // opacity: 0.4,
             },
             fullScreen: false,
             fpsLimit: 120,

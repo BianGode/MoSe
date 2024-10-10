@@ -26,27 +26,53 @@ function SingleMovie() {
         console.log(err);
       });
   }
-  
+
   return (
     <div className="single-movie-wrap">
       {movieData.length !== 0 ? (
-<>
-        <p>{movieData.movieDetails.title}</p>
-        {movieData.cast.map((el) => {
-          return (
-            <>
-              <p style={{ color: "white" }}>{el.profile_path}</p>
-              {/* <p style={{ color: "white" }}>{el}</p> */}
-              {/* <p style={{ color: "white" }}>{el}</p> */}
+        <>
+          {window.innerWidth > 900 ? (
+            <div id='test'>
+              <p>{movieData.movieDetails.title}</p>
               <img
-                src={"https://image.tmdb.org/t/p/w500/" + el.profile_path}
+                src={
+                  "https://image.tmdb.org/t/p/original/" +
+                  movieData.movieDetails.poster_path
+                }
                 alt=""
+                className="single-movie-poster"
+              />
+            </div>
+          ) : (
+            <>
+              <p>{movieData.movieDetails.title}</p>
+              <img
+                src={
+                  "https://image.tmdb.org/t/p/original/" +
+                  movieData.movieDetails.poster_path
+                }
+                alt=""
+                className="single-movie-poster"
               />
             </>
-          );
-        })} </>) : 
+          )}
+          {movieData.cast.map((el) => {
+            return (
+              <>
+                <p style={{ color: "white" }}>{el.profile_path}</p>
+                {/* <p style={{ color: "white" }}>{el}</p> */}
+                {/* <p style={{ color: "white" }}>{el}</p> */}
+                <img
+                  src={"https://image.tmdb.org/t/p/w500/" + el.profile_path}
+                  alt=""
+                />
+              </>
+            );
+          })}{" "}
+        </>
+      ) : (
         <p style={{ color: "white" }}>NO DATA YET!</p>
-      }
+      )}
     </div>
   );
   // movieData.length !== 0 ? <p>{movieData.cast[0]}</p> : <p>NO DATA YET</p>
