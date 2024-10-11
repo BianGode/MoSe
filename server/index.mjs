@@ -13,6 +13,7 @@ app.use(express.json())
 const port = process.env.PORT || 5000;
 const apiKey = '272013ce8e3a006ee0055e8120e3d22f';
 
+// test
 app.use((err, req, res, next) => {
   return res.json({ errorMessage: err.message });
 });
