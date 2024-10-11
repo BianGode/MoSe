@@ -208,7 +208,7 @@ body {
           .search-input-wrap {
             background-color: #3E424E;
             // padding: 5px 10px;
-            // height: 1.8rem;
+            height: 2rem;
             .search-icon-home {
               height: 1.8rem;
             }
@@ -218,11 +218,9 @@ body {
               // border: none;
               // background-color: inherit;
               // width: 300px;
-              background: 
-                  linear-gradient(#000, #000) center bottom 5px /calc(100% - 10px) 2px no-repeat;
               background-color: #3E424E;
-              border: none;
               color: #D8D88C;
+              border: none;
               border-left: 1px solid;
               height: 100%;
               outline: none;

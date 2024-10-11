@@ -146,15 +146,15 @@ body {
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap {
   background-color: #3E424E;
+  height: 2rem;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap .search-icon-home {
   height: 1.8rem;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap input {
-  background: linear-gradient(#000, #000) center bottom 5px/calc(100% - 10px) 2px no-repeat;
   background-color: #3E424E;
-  border: none;
   color: #D8D88C;
+  border: none;
   border-left: 1px solid;
   height: 100%;
   outline: none;
