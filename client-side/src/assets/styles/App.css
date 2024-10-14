@@ -116,7 +116,7 @@
 }
 
 body {
-  background-color: black;
+  background-color: rgb(31, 45, 66);
 }
 
 #video-overlay {
@@ -124,6 +124,19 @@ body {
   background-image: linear-gradient(45deg, rgb(0, 0, 0), rgba(0, 0, 255, 0.9), rgb(0, 0, 0), rgba(112, 99, 56, 0.9), rgb(0, 0, 0), rgba(184, 0, 31, 0.9), rgb(0, 0, 0), rgba(99, 86, 63, 0.9), rgb(0, 0, 0), rgb(0, 183, 1), rgb(0, 0, 0), rgb(116, 8, 189));
 }
 
+.particle-content-container {
+  position: relative;
+}
+.particle-content-container #tsparticles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 2;
+}
 .original svg {
   color: rgb(216, 216, 140);
 }
@@ -145,15 +158,15 @@ body {
   color: white;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap {
-  background-color: #3E424E;
+  background-color: #3e424e;
   height: 2rem;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap .search-icon-home {
   height: 1.8rem;
 }
 .original .outlet-wrapper .home-wrapper .search-home-wrapper .search-home .search-input-wrap input {
-  background-color: #3E424E;
-  color: #D8D88C;
+  background-color: #3e424e;
+  color: #d8d88c;
   border: none;
   border-left: 1px solid;
   height: 100%;
@@ -201,6 +214,9 @@ footer {
   width: 100%;
   border: 2px dashed blue;
   height: 200px;
+  z-index: 11;
+  position: relative;
+  background-color: black;
 }
 
 .search-header {

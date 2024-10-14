@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../assets/styles/Home.css";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faStar } from "@fortawesome/free-solid-svg-icons";
 import VideoJS from "../components/VideoJS";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
@@ -109,7 +109,7 @@ function Home() {
   }
 
   function navigateMovie(id) {
-    navigate('/singlemovie/' + id, {state: {id: id}});
+    navigate("/singlemovie/" + id, { state: { id: id } });
   }
 
   return (
@@ -137,30 +137,56 @@ function Home() {
         <div className="result-wrapper">
           {searchRes.map((el, index) => {
             return (
-              <div className="result-card" key={index} onClick={() => navigateMovie(el.id)}>
-                <p className="result-home-p" style={{ color: "white" }}>{el.title}</p>
+              <div
+                className="result-card"
+                key={index}
+                onClick={() => navigateMovie(el.id)}
+              >
                 {!isMobile ? (
-                  <div className="result-image-wrap">
+                  <>
+                    <p className="result-home-p" style={{ color: "white" }}>
+                      {el.title}
+                    </p>
+                    <div className="result-image-wrap">
+                      <img
+                        src={
+                          "https://image.tmdb.org/t/p/original/" +
+                          el.poster_path
+                        }
+                        alt={el.title}
+                      />
+                      <div className="result-overlay">
+                        {Math.round(el.vote_average * 10) / 10}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
                     <img
+                      className="result-image-mob"
                       src={
                         "https://image.tmdb.org/t/p/original/" + el.poster_path
                       }
-                      alt={el.title}
+                      alt={'No image available'}
                     />
-                    <div className="result-overlay">
-                      {Math.round(el.vote_average * 10) / 10}
+                    <div className="year-title-wrap">
+                      <p className="result-home-p" style={{ color: "white" }}>
+                        {el.title}
+                      </p>
+                      <p>{el.release_date}</p>
+                      </div>
+                    <div className="vote-wrapper">
+                      <p className="vote-p">
+                        {Math.round(el.vote_average * 10) / 10}
+                      </p>
+                      <FontAwesomeIcon icon={faStar} />
                     </div>
-                  </div>
-                ) : (
-                  <img
-                    className="result-image-mob"
-                    src={
-                      "https://image.tmdb.org/t/p/original/" + el.poster_path
-                    }
-                    alt={el.title}
-                  />
+                    <p>{el.original_language}</p>
+                  </>
                 )}
-                <p>{el.release_date}</p>
+                {/* WHAT I SHOULD FIX TONIGHT = background gradient for desktop home result
+                  singlemovie layout
+                */}
               </div>
             );
           })}

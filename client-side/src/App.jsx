@@ -228,78 +228,78 @@ function App() {
   // onClickOutside()
   return (
     // NOTE: I know that the css classnames have bad naming-conventions but I'm gonna do better on my next project
-    <div className={theme}>
-      {init && (
-        <Particles
-          id="tsparticles"
-          particlesLoaded={particlesLoaded}
-          options={{
-            background: {
-              // color: {
-              //   value: "#000000",
-              // },
-              // opacity: 0.4,
-            },
-            fullScreen: false,
-            fpsLimit: 120,
-            interactivity: {
-              events: {
-                onClick: {
-                  enable: false,
-                  mode: "push",
-                },
-                onHover: {
-                  enable: false,
-                  mode: "grab",
-                },
-                resize: true,
+    <div className="particle-content-container">{init && (
+      <Particles
+        id="tsparticles"
+        particlesLoaded={particlesLoaded}
+        options={{
+          background: {
+            // color: {
+            //   value: "#000000",
+            // },
+            // opacity: 0.4,
+          },
+          fullScreen: false,
+          fpsLimit: 120,
+          interactivity: {
+            events: {
+              onClick: {
+                enable: false,
+                mode: "push",
               },
-              modes: {
-                push: {
-                  quantity: 4,
-                },
-                repulse: {
-                  distance: 50,
-                  duration: 0.4,
-                },
+              onHover: {
+                enable: false,
+                mode: "grab",
+              },
+              resize: true,
+            },
+            modes: {
+              push: {
+                quantity: 4,
+              },
+              repulse: {
+                distance: 50,
+                duration: 0.4,
               },
             },
-            particles: {
-              color: {
-                value: "#ffffff",
+          },
+          particles: {
+            color: {
+              value: "#ffffff",
+            },
+            move: {
+              direction: "none",
+              enable: true,
+              outModes: {
+                default: "bounce",
               },
-              move: {
-                direction: "none",
+              random: true,
+              speed: 0.5,
+              straight: false,
+            },
+            number: {
+              density: {
                 enable: true,
-                outModes: {
-                  default: "bounce",
-                },
-                random: true,
-                speed: 0.5,
-                straight: false,
+                area: 800,
               },
-              number: {
-                density: {
-                  enable: true,
-                  area: 800,
-                },
-                value: 80,
-              },
-              opacity: {
-                value: { min: 0.9, max: 1 },
-              },
-              shape: {
-                type: "circle",
-                // fill: false,
-              },
-              size: {
-                value: { min: 1, max: 2 },
-              },
+              value: 80,
             },
-            detectRetina: true,
-          }}
-        />
-      )}
+            opacity: {
+              value: { min: 0.9, max: 1 },
+            },
+            shape: {
+              type: "circle",
+              // fill: false,
+            },
+            size: {
+              value: { min: 1, max: 2 },
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+    )}
+    <div className={theme}>
       <SelectTheme />
       <header className="desktop">
         <img src={logo} alt="logo" />
@@ -346,7 +346,7 @@ function App() {
               ) : null}
             </div>
 
-            {isMobile ? <HeaderSearch screenWidth="mobile" /> : null}
+            {/* {isMobile ? <HeaderSearch screenWidth="mobile" /> : null} */}
           </div>
         </div>
       </header>
@@ -356,6 +356,7 @@ function App() {
       {/* <button onClick={() => searchReqClientSide()}>button</button> */}
       <footer></footer>
       {/* <useOutsideAlerter/> */}
+    </div>
     </div>
   );
 }

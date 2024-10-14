@@ -37,6 +37,7 @@ function quickSearch(arr) {
       poster_path: el.poster_path,
       release_date: el.release_date.split("-")[0],
       vote_average: el.vote_average,
+      original_language: el.original_language,
     });
   });
 }

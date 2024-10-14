@@ -31,44 +31,78 @@ function SingleMovie() {
     <div className="single-movie-wrap">
       {movieData.length !== 0 ? (
         <>
-          {window.innerWidth > 900 ? (
-            <div id='test'>
-              <p>{movieData.movieDetails.title}</p>
-              <img
-                src={
-                  "https://image.tmdb.org/t/p/original/" +
-                  movieData.movieDetails.poster_path
-                }
-                alt=""
-                className="single-movie-poster"
-              />
-            </div>
-          ) : (
-            <>
-              <p>{movieData.movieDetails.title}</p>
-              <img
-                src={
-                  "https://image.tmdb.org/t/p/original/" +
-                  movieData.movieDetails.poster_path
-                }
-                alt=""
-                className="single-movie-poster"
-              />
-            </>
-          )}
-          {movieData.cast.map((el) => {
-            return (
+          <div className="single-movie-content-wrap">
+            {window.innerWidth > 900 ? (
               <>
-                <p style={{ color: "white" }}>{el.profile_path}</p>
-                {/* <p style={{ color: "white" }}>{el}</p> */}
-                {/* <p style={{ color: "white" }}>{el}</p> */}
-                <img
-                  src={"https://image.tmdb.org/t/p/w500/" + el.profile_path}
-                  alt=""
-                />
+                <p>{movieData.movieDetails.title}</p>
+                <div className="single-movie">
+                  <div className="single-movie-left">
+                    <p>{movieData.movieDetails.overview}</p>
+                    <div className="single-movie-genres">
+                      {movieData.movieDetails.genres.map((genre) => {
+                        return <p>{genre.name}</p>;
+                      })}
+                    </div>
+                  </div>
+                  <div className="single-movie-right">
+                    <img
+                      src={
+                        "https://image.tmdb.org/t/p/original/" +
+                        movieData.movieDetails.poster_path
+                      }
+                      alt=""
+                      className="single-movie-poster"
+                    />
+                  </div>
+                </div>
               </>
-            );
-          })}{" "}
+            ) : (
+              <>
+                <p className="title">{movieData.movieDetails.title}</p>
+                <p>{movieData.movieDetails.release_date}</p>
+
+                <img
+                  src={
+                    "https://image.tmdb.org/t/p/original/" +
+                    movieData.movieDetails.poster_path
+                  }
+                  alt=""
+                  className="single-movie-poster"
+                />
+                <p>{movieData.movieDetails.overview}</p>
+
+                <div className="single-movie-genres">
+                  {movieData.movieDetails.genres.map((genre) => {
+                    return <p>{genre.name}</p>;
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="custom-hr">
+            <div className="ball left"></div>
+            <div className="hr"></div>
+            <div className="ball right"></div>
+          </div>
+          <div className="single-movie-cast-wrap">
+            {movieData.cast.map((el) => {
+              return (
+                <div className="single-movie-single-cast">
+                  {/* <p style={{ color: "white" }}>{el}</p> */}
+                  {/* <p style={{ color: "white" }}>{el}</p> */}
+                  <p>{el.name}</p>
+                  <img
+                    src={"https://image.tmdb.org/t/p/w500/" + el.profile_path}
+                    alt="No image available"
+                  />
+                  <div className="cast-name-role-wrap">
+                    <p>Character:</p>
+                    <p>{el.character}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </>
       ) : (
         <p style={{ color: "white" }}>NO DATA YET!</p>
