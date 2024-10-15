@@ -5,6 +5,8 @@ import VideoJS from "../components/VideoJS";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import data from '../languages.json';
+
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -12,6 +14,8 @@ function Home() {
 
   // const playerRef = useRef(null);
   const [timestamp1, setTimestamp1] = useState(null);
+  const [countryOfOrigin, setCountryOfOrigin] = useState('')
+  const [translateTo, setTranslateTo] = useState('')
 
   const [isMobile, setIsMobile] = useState(
     window.innerWidth < 910 ? true : false
@@ -86,6 +90,8 @@ function Home() {
       .get("http://localhost:5000/search", {
         params: {
           search: searchParam,
+          original_language: countryOfOrigin,
+          translateTo: translateTo
         },
       })
       .then((res) => {
@@ -112,6 +118,17 @@ function Home() {
     navigate("/singlemovie/" + id, { state: { id: id } });
   }
 
+  function handleCountryOfOrigin(e) {
+    console.log(e.target.value);
+    setCountryOfOrigin(e.target.value)
+  }
+  function handleTranslateTo(e) {
+    console.log(e.target.value);
+    setTranslateTo(e.target.value)
+  }
+
+  // Add search input where select language, country and translation
+
   return (
     <div className="home-wrapper">
       <div className="video-wrapper">
@@ -127,9 +144,22 @@ function Home() {
               ref={ref}
               // onClick={() => switchSearchBackground()}
               type="text"
+              className="search-input"
               // value={search}
               onChange={(e) => searchCall(e)}
             />
+            <select id="country-of-origin-select" onChange={(e) => handleCountryOfOrigin(e)}>
+              {data.map((lang, inx) => {
+                return (inx == 0 ? <option>Original language</option>
+                : <option value={lang.iso_639_1}>{lang.english_name}</option>
+              )})}
+            </select>
+            <select id="translate-to-select" onChange={(e) => handleTranslateTo(e)}>
+            {data.map((lang, inx) => {
+                return (inx == 0 ? <option>Translate to</option>
+                : <option value={lang.iso_639_1}>{lang.english_name}</option>
+              )})}
+            </select>
           </div>
         </div>
       </div>

@@ -42,13 +42,24 @@ function quickSearch(arr) {
   });
 }
 
+
+// IMPORTANT:
+// https://api.themoviedb.org/3/discover/movie?api_key=272013ce8e3a006ee0055e8120e3d22f&
+// is the query for a movie
+// &language=nl-NL
+// &with_title_translation=nl-NL
+// &with_overview_translation=nl-NL
+// &with_original_language= get language 
 app.get("/search", (req, res) => {
   // search movie
   // 'https://api.themoviedb.org/3/search/movie?query=' + res.data +'&api_key=API_KEY'
   // if movie has more than 1 search result:
   // loop through the results and display the title, poster_path, release_date and vote_average
-  const inputUser = req.url.split("=")[1];
-  console.log("test=== " + inputUser);
+  const inputUser = req.url.split('&')[0].split('=')[1]
+  const original_language = req.url.split('&')[1].split('=')[1]
+  const translateTo = req.url.split('&')[2].split('=')[1]
+  
+  console.log(inputUser, original_language, translateTo);
   
   const test = { name: 'test' }
   // console.log(res);
@@ -57,11 +68,15 @@ app.get("/search", (req, res) => {
   // WHAT STILL NEEDS TO BE DONE: add page counter with url &page=PAGENUMER
   async function searchReq() {
     try {
-      console.log(inputUser + " test");
+      // console.log(inputUser + " test");
       const result = await axios.get(
-        "https://api.themoviedb.org/3/search/movie?language=en-US&query=" +
-        inputUser +
-        "&api_key=" + apiKey
+        
+        "https://api.themoviedb.org/3/discover/movie" +
+        "?api_key=" + apiKey,
+        '&with_text_query=' + inputUser,
+        '&with_original_language=' + original_language,
+        '&with_title_translation=' + translateTo + '-' + translateTo.toUpperCase(),
+        '&with_overview_translation=' + translateTo + '-' + translateTo.toUpperCase()
       )
       // console.log(result.data);
 
