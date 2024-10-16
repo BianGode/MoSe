@@ -150,14 +150,14 @@ function Home() {
             />
             <select id="country-of-origin-select" onChange={(e) => handleCountryOfOrigin(e)}>
               {data.map((lang, inx) => {
-                return (inx == 0 ? <option>Original language</option>
-                : <option value={lang.iso_639_1}>{lang.english_name}</option>
+                return (inx == 0 ? <option key={inx}>Original language</option>
+                : <option key={inx} value={lang.iso_639_1}>{lang.english_name}</option>
               )})}
             </select>
             <select id="translate-to-select" onChange={(e) => handleTranslateTo(e)}>
             {data.map((lang, inx) => {
-                return (inx == 0 ? <option>Translate to</option>
-                : <option value={lang.iso_639_1}>{lang.english_name}</option>
+                return (inx == 0 ? <option key={inx}>Translate to</option>
+                : <option key={inx} value={lang.iso_639_1}>{lang.english_name}</option>
               )})}
             </select>
           </div>

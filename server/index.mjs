@@ -38,6 +38,7 @@ function quickSearch(arr) {
       release_date: el.release_date.split("-")[0],
       vote_average: el.vote_average,
       original_language: el.original_language,
+      original_title: el.original_title,
     });
   });
 }
@@ -70,15 +71,16 @@ app.get("/search", (req, res) => {
     try {
       // console.log(inputUser + " test");
       const result = await axios.get(
-        
+        // https://api.themoviedb.org/3/discover/movie?api_key=272013ce8e3a006ee0055e8120e3d22f&language=nl-NL&with_title_translation=nl-NL&with_overview_translation=nl-NL
         "https://api.themoviedb.org/3/discover/movie" +
-        "?api_key=" + apiKey,
+        "?api_key=" + apiKey +
+        '&language=' + translateTo + '=' + translateTo.toUpperCase() +
         '&with_text_query=' + inputUser,
-        '&with_original_language=' + original_language,
-        '&with_title_translation=' + translateTo + '-' + translateTo.toUpperCase(),
-        '&with_overview_translation=' + translateTo + '-' + translateTo.toUpperCase()
+        // '&with_original_language=' + original_language,
+        // '&with_title_translation=' + translateTo + '-' + translateTo.toUpperCase(),
+        // '&with_overview_translation=' + translateTo + '-' + translateTo.toUpperCase()
       )
-      // console.log(result.data);
+      console.log(result.data);
 
       if (result.data.results.length > 1) {
         quickSearch(result.data.results);
