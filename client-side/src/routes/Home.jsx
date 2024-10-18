@@ -75,7 +75,7 @@ function Home() {
     //   : null;
   };
 
-  const ref = useOutsideClick(removeActive);
+  // const ref = useOutsideClick(removeActive);
 
   function switchSearchBackground() {
     if (!isSearchFocused) {
@@ -84,26 +84,20 @@ function Home() {
   }
 
   // call to node back-end
-  function searchReqClientSide(searchParam) {
-    axios
-      .get("http://localhost:5000/search", {
+  async function searchReqClientSide(searchParam) {
+    try {
+      const response = await axios.get("http://localhost:5000/search", {
         params: {
           search: searchParam,
           original_language: countryOfOrigin,
           translateTo: translateTo,
         },
-      })
-      .then((res) => {
-        console.log(res.data);
-
-        setSearchRes(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        console.log(searchRes);
       });
+
+      setSearchRes(response.data);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   //setup before functions
@@ -113,32 +107,51 @@ function Home() {
 
   function addTimerEvent() {
     //on keydown, clear the countdown
-      clearTimeout(typingTimer);
-  }
-  function searchCall(e) {
-    setSearch(e.target.value);
     clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-      searchReqClientSide(e.target.value);
-    }, doneTypingInterval);
+  }
+
+  const PopulairMovies = () => {
+    return <>{searchRes ? <div></div> : <div></div>}</>;
+  };
+
+  function searchCall(e) {
+    if (search && e.target.value == "") {
+      clearTimeout(typingTimer);
+    } else {
+      setSearch(e.target.value);
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(() => {
+        searchReqClientSide(e.target.value);
+      }, doneTypingInterval);
+    }
   }
 
   function navigateMovie(id) {
     navigate("/singlemovie/" + id, { state: { id: id } });
   }
 
-  function handleCountryOfOrigin(e) {
-    if (ref.current.value) {
-      setCountryOfOrigin(e.target.value);
-      searchReqClientSide(ref.current.value);
+  useEffect(() => {
+    if (search) {
+      searchReqClientSide(search);
     }
+  }, [countryOfOrigin, translateTo]);
+
+  function handleCountryOfOrigin(e) {
+    setCountryOfOrigin(e.target.value);
+    // console.log(search);
+    // if (search) {
+    //   searchReqClientSide(search);
+    // }
   }
 
   function handleTranslateTo(e) {
-    if (ref.current.value) {
-      setTranslateTo(e.target.value);
-      searchReqClientSide(ref.current.value);
-    }
+    setTranslateTo(e.target.value);
+    // console.log(search);
+
+    // if (search) {
+    //   searchReqClientSide(search);
+    //   // console.log(document.getElementById('search-input-home').innerText);
+    // }
   }
 
   // Add search input where select language, country and translation
@@ -155,7 +168,7 @@ function Home() {
           <div className="search-input-wrap">
             <FontAwesomeIcon icon={faSearch} className="search-icon-home" />
             <input
-              ref={ref}
+              // ref={ref}
               // onClick={() => switchSearchBackground()}
               type="text"
               className="search-input"

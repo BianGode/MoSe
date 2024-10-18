@@ -60,22 +60,13 @@ app.get("/search", (req, res) => {
   const inputUser = req.url.split('&')[0].split('=')[1]
   let translateTo;
   let original_language;
-  if(!req.url.split('&')[1].split('=')[1]) {
-    original_language = 'en'
-  } else {
-    const original_language = req.url.split('&')[1].split('=')[1]
-    
-  }
-  if(!req.url.split('&')[2].split('=')[1]) {
-    translateTo = 'en'
-  } else {
-    translateTo = req.url.split('&')[2].split('=')[1]
-  }
+  original_language = req.url.split('&')[1].split('=')[1]
+  translateTo = req.url.split('&')[2].split('=')[1]
+  console.log(req);
   
+
   console.log(inputUser, original_language, translateTo);
-  console.log(req.url);
-  
-  const test = { name: 'test' }
+
   // console.log(res);
   // Movie Details with id given from above query
   // 'https://api.themoviedb.org/3/movie/' + id + '?api_key=API_KEY'
@@ -94,7 +85,7 @@ app.get("/search", (req, res) => {
         // '&with_title_translation=' + translateTo + '-' + translateTo.toUpperCase(),
         // '&with_overview_translation=' + translateTo + '-' + translateTo.toUpperCase()
       )
-      console.log(result);
+      // console.log(result);
 
       if (result.data.results.length > 1) {
         quickSearch(result.data.results);
@@ -137,7 +128,7 @@ app.get("/singleMovie", (req, res) => {
         .then((castRes) => {
           // this works
           console.log(castRes.data.cast);
-          
+
           movieData.cast = castRes.data.cast;
           // console.log(movieData);
           res.send(movieData);
