@@ -11,7 +11,7 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 const port = process.env.PORT || 5000;
-const apiKey = '272013ce8e3a006ee0055e8120e3d22f';
+const apiKey = '07dd926cae4562f3f2879d47b2f5a863';
 
 app.use((err, req, res, next) => {
   return res.json({ errorMessage: err.message });
@@ -39,6 +39,7 @@ function quickSearch(arr) {
       vote_average: el.vote_average,
       original_language: el.original_language,
       original_title: el.original_title,
+      overview: el.overview
     });
   });
 }
@@ -57,10 +58,22 @@ app.get("/search", (req, res) => {
   // if movie has more than 1 search result:
   // loop through the results and display the title, poster_path, release_date and vote_average
   const inputUser = req.url.split('&')[0].split('=')[1]
-  const original_language = req.url.split('&')[1].split('=')[1]
-  const translateTo = req.url.split('&')[2].split('=')[1]
+  let translateTo;
+  let original_language;
+  if(!req.url.split('&')[1].split('=')[1]) {
+    original_language = 'en'
+  } else {
+    const original_language = req.url.split('&')[1].split('=')[1]
+    
+  }
+  if(!req.url.split('&')[2].split('=')[1]) {
+    translateTo = 'en'
+  } else {
+    translateTo = req.url.split('&')[2].split('=')[1]
+  }
   
   console.log(inputUser, original_language, translateTo);
+  console.log(req.url);
   
   const test = { name: 'test' }
   // console.log(res);
@@ -74,13 +87,14 @@ app.get("/search", (req, res) => {
         // https://api.themoviedb.org/3/discover/movie?api_key=272013ce8e3a006ee0055e8120e3d22f&language=nl-NL&with_title_translation=nl-NL&with_overview_translation=nl-NL
         "https://api.themoviedb.org/3/discover/movie" +
         "?api_key=" + apiKey +
-        '&language=' + translateTo + '=' + translateTo.toUpperCase() +
-        '&with_text_query=' + inputUser,
-        // '&with_original_language=' + original_language,
+        '&with_text_query=' + inputUser +
+        '&with_original_language=' + original_language +
+        '&language=' + translateTo
+        // with_text_query=alles&with_original_language=nl&language=nl-NL
         // '&with_title_translation=' + translateTo + '-' + translateTo.toUpperCase(),
         // '&with_overview_translation=' + translateTo + '-' + translateTo.toUpperCase()
       )
-      console.log(result.data);
+      console.log(result);
 
       if (result.data.results.length > 1) {
         quickSearch(result.data.results);
@@ -104,7 +118,6 @@ app.get("/singleMovie", (req, res) => {
   let movieData = { movieDetails: "", cast: "" };
   const singleMovieId = req.url.split("=")[1];
 
-  console.log(singleMovieId);
   axios
     .get(
       "https://api.themoviedb.org/3/movie/" +

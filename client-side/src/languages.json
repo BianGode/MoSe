@@ -59,11 +59,7 @@
   { "iso_639_1": "iu", "english_name": "Inuktitut", "name": "" },
   { "iso_639_1": "ie", "english_name": "Interlingue", "name": "" },
   { "iso_639_1": "ia", "english_name": "Interlingua", "name": "" },
-  {
-    "iso_639_1": "id",
-    "english_name": "Indonesian",
-    "name": "Bahasa indonesia"
-  },
+  {"iso_639_1": "id","english_name": "Indonesian","name": "Bahasa indonesia"},
   { "iso_639_1": "ik", "english_name": "Inupiaq", "name": "" },
   { "iso_639_1": "is", "english_name": "Icelandic", "name": "Íslenska" },
   { "iso_639_1": "it", "english_name": "Italian", "name": "Italiano" },
@@ -179,11 +175,7 @@
   { "iso_639_1": "ps", "english_name": "Pushto", "name": "پښتو" },
   { "iso_639_1": "am", "english_name": "Amharic", "name": "" },
   { "iso_639_1": "ar", "english_name": "Arabic", "name": "العربية" },
-  {
-    "iso_639_1": "be",
-    "english_name": "Belarusian",
-    "name": "беларуская мова"
-  },
+  {"iso_639_1": "be","english_name": "Belarusian","name": "беларуская мова"},
   { "iso_639_1": "bg", "english_name": "Bulgarian", "name": "български език" },
   { "iso_639_1": "cn", "english_name": "Cantonese", "name": "广州话 / 廣州話" },
   { "iso_639_1": "mk", "english_name": "Macedonian", "name": "" },

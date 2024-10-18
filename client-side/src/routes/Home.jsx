@@ -5,8 +5,7 @@ import VideoJS from "../components/VideoJS";
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import data from '../languages.json';
-
+import data from "../languages.json";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -14,8 +13,8 @@ function Home() {
 
   // const playerRef = useRef(null);
   const [timestamp1, setTimestamp1] = useState(null);
-  const [countryOfOrigin, setCountryOfOrigin] = useState('')
-  const [translateTo, setTranslateTo] = useState('')
+  const [countryOfOrigin, setCountryOfOrigin] = useState("");
+  const [translateTo, setTranslateTo] = useState("");
 
   const [isMobile, setIsMobile] = useState(
     window.innerWidth < 910 ? true : false
@@ -91,7 +90,7 @@ function Home() {
         params: {
           search: searchParam,
           original_language: countryOfOrigin,
-          translateTo: translateTo
+          translateTo: translateTo,
         },
       })
       .then((res) => {
@@ -107,11 +106,21 @@ function Home() {
       });
   }
 
-  function searchCall(e) {
-    // setSearch(e.target.value)
-    // console.log();
+  //setup before functions
+  let typingTimer; //timer identifier
+  let doneTypingInterval = 1000; //time in ms, 5 seconds for example
+  let input = document.getElementById("search-input-home");
 
-    searchReqClientSide(e.target.value);
+  function addTimerEvent() {
+    //on keydown, clear the countdown
+      clearTimeout(typingTimer);
+  }
+  function searchCall(e) {
+    setSearch(e.target.value);
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+      searchReqClientSide(e.target.value);
+    }, doneTypingInterval);
   }
 
   function navigateMovie(id) {
@@ -119,12 +128,17 @@ function Home() {
   }
 
   function handleCountryOfOrigin(e) {
-    console.log(e.target.value);
-    setCountryOfOrigin(e.target.value)
+    if (ref.current.value) {
+      setCountryOfOrigin(e.target.value);
+      searchReqClientSide(ref.current.value);
+    }
   }
+
   function handleTranslateTo(e) {
-    console.log(e.target.value);
-    setTranslateTo(e.target.value)
+    if (ref.current.value) {
+      setTranslateTo(e.target.value);
+      searchReqClientSide(ref.current.value);
+    }
   }
 
   // Add search input where select language, country and translation
@@ -145,20 +159,38 @@ function Home() {
               // onClick={() => switchSearchBackground()}
               type="text"
               className="search-input"
+              id="search-input-home"
               // value={search}
+              onKeyDown={() => addTimerEvent()}
               onChange={(e) => searchCall(e)}
             />
-            <select id="country-of-origin-select" onChange={(e) => handleCountryOfOrigin(e)}>
+            <select
+              id="country-of-origin-select"
+              onChange={(e) => handleCountryOfOrigin(e)}
+            >
               {data.map((lang, inx) => {
-                return (inx == 0 ? <option key={inx}>Original language</option>
-                : <option key={inx} value={lang.iso_639_1}>{lang.english_name}</option>
-              )})}
+                return inx == 0 ? (
+                  <option key={inx}>Original language</option>
+                ) : (
+                  <option key={inx} value={lang.iso_639_1}>
+                    {lang.english_name}
+                  </option>
+                );
+              })}
             </select>
-            <select id="translate-to-select" onChange={(e) => handleTranslateTo(e)}>
-            {data.map((lang, inx) => {
-                return (inx == 0 ? <option key={inx}>Translate to</option>
-                : <option key={inx} value={lang.iso_639_1}>{lang.english_name}</option>
-              )})}
+            <select
+              id="translate-to-select"
+              onChange={(e) => handleTranslateTo(e)}
+            >
+              {data.map((lang, inx) => {
+                return inx == 0 ? (
+                  <option key={inx}>Translate to</option>
+                ) : (
+                  <option key={inx} value={lang.iso_639_1}>
+                    {lang.english_name}
+                  </option>
+                );
+              })}
             </select>
           </div>
         </div>
@@ -172,6 +204,7 @@ function Home() {
                 key={index}
                 onClick={() => navigateMovie(el.id)}
               >
+                <p>{el.overview}</p>
                 {!isMobile ? (
                   <>
                     <p className="result-home-p" style={{ color: "white" }}>
@@ -197,14 +230,14 @@ function Home() {
                       src={
                         "https://image.tmdb.org/t/p/original/" + el.poster_path
                       }
-                      alt={'No image available'}
+                      alt={"No image available"}
                     />
                     <div className="year-title-wrap">
                       <p className="result-home-p" style={{ color: "white" }}>
                         {el.title}
                       </p>
                       <p>{el.release_date}</p>
-                      </div>
+                    </div>
                     <div className="vote-wrapper">
                       <p className="vote-p">
                         {Math.round(el.vote_average * 10) / 10}
